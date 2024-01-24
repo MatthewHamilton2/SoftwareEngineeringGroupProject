@@ -5,6 +5,7 @@ CREATE TABLE users (
     username VARCHAR(64) NOT NULL PRIMARY KEY,
     password VARCHAR(64) NOT NULL,
     email VARCHAR(64) NOT NULL,
+    type VARCHAR(8) NOT NULL,
     CONSTRAINT UC_email UNIQUE (email)
 ) ENGINE = InnoDB;
 
