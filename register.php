@@ -7,20 +7,26 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <Section id="registerSection">
+    <section>
     <form action="register.php" method="post">
         <input type = "text" name="username" placeholder="Username"><br>
         <input type = "password" name="password" placeholder="Password"><br>
         <input type = "text" name="email" placeholder="Email"><br>
+        <label>Are you a student or Educator?</label><br>
+        <select name="usertype">
+            <option value="student">Student</option>
+            <option value="educator">Educator</option>
+        </select>
+        <br>
         <input type = "submit" name = "submit" value = "Register">
     </form>
         <?php
         include("connect.php");
         if(isset($_POST['submit'])){
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $email = $_POST["email"];
-
+        $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+        $type = $_POST["usertype"];
 
         if(empty($username)){
             echo"Please enter a Username"."<br>";
@@ -34,7 +40,7 @@
         else {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         try{
-        $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$hashedPassword', '$email')";
+        $sql = "INSERT INTO users (username, password, email, type) VALUES ('$username', '$hashedPassword', '$email', '$type')";
         mysqli_query($conn, $sql);
         }
         catch(mysqli_sql_exception){
@@ -52,10 +58,6 @@
         }
         ?>
     <h1>Already have an account? Then log in <a href="login.php">here</a></h1>
-    </Section>
-    <Section id="registerExplanationSection">
-    <h1>Welcome to CollabNexus!</h1>
-    <h1>...</h1>
     </Section>
 </body>
 </html>

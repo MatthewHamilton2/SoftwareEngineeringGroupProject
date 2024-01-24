@@ -1,25 +1,3 @@
-#registerSection, #loginSection{
-    margin-left: 649px;
-    padding: 50px;
-    height: 700px;
-    width: 500px;
-    background-color: blue;
-    float: left;
-}
-
-#registerExplanationSection, #loginExplanationSection{
-    margin-right: 639px;
-    padding: 50px;
-    height: 700px;
-    width: 500px;
-    background-color: purple;
-    float: right;
-}
-
-body{
-    background-color: white;
-}
-
 input[type=text], input[type=password]{
     border: none;
     border-radius: 20px;

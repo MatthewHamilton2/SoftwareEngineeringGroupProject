@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <Section id="loginSection">
+    <Section>
     <form action="login.php" method="post">
         <input type = "text" name="username" placeholder="Enter Username or Email"><br>
         <input type = "password" name="password" placeholder="Enter Password"><br>
@@ -16,8 +16,8 @@
         <?php
         include("connect.php");
         if(isset($_POST['submit'])){
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+        $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
         if(empty($username)){
             echo"Please enter a Username or Email Address"."<br>";
@@ -45,10 +45,6 @@
         }
         ?>
     <h1>Dont have an account? Then register <a href="register.php">here</a></h1>
-    </Section>
-    <Section id="loginExplanationSection">
-    <h1>Welcome to CollabNexus!</h1>
-    <h1>...</h1>
     </Section>
 </body>
 </html>
