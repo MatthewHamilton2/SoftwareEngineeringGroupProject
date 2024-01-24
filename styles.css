@@ -1,0 +1,42 @@
+#registerSection, #loginSection{
+    margin-left: 649px;
+    padding: 50px;
+    height: 700px;
+    width: 500px;
+    background-color: blue;
+    float: left;
+}
+
+#registerExplanationSection, #loginExplanationSection{
+    margin-right: 639px;
+    padding: 50px;
+    height: 700px;
+    width: 500px;
+    background-color: purple;
+    float: right;
+}
+
+body{
+    background-color: white;
+}
+
+input[type=text], input[type=password]{
+    border: none;
+    border-radius: 20px;
+    height: 36px;
+    width: 270px;
+    font-size: 13pt;
+    margin-bottom: 10%;
+}
+
+input[type=submit]{
+    border:none;
+    color: black;
+    background-color: azure;
+    padding:5px;
+    cursor: pointer;
+    margin-top: 3px;
+    width: 80px;
+    height: 35px;
+    margin-bottom: 10%;
+}
