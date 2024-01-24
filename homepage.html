@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css" /> 
+
+    </head>
+    <body>
+
+    
+
+    <div id = "sidenavbar" class="sidenav">
+        
+        
+        <a href = "index.html">Home</a>
+        <a href = "StudentGroup.html">Student Groups</a>
+        <a href = "EducatorGroups.html">Educator Groups</a>
+        <a href = "Profile.html" class="split">My Profile</a>
+        <a href = "Settings.html" class="split">Settings</a>
+        <a href = "javascript:void(0)" class = "closebtn" onclick = "closeNav()">&times;</a>
+    </div>
+   
+    
+    
+
+
+    <div id = "main">
+    
+    <span style = "font-size:30px;cursor:pointer" onclick = "openNav()">&#9776; Collab Nexus </span> 
+    
+    <h3 style = "text-align:center; font-size:20px" >Homepage</h3>
+    
+    <div class = "row">
+        <div class = "column">
+            <div class = "card">
+                <img src = "images/BER_VERITHIN_pencil fan.jpg" alt = "pencils" style = "width:100%">
+                <div class = "container">
+                    <h4><b>Student Groups</b></h4>
+                    <p><button class = "button"><a href = "StudentGroup.html"><p style = "color: white;">View Group</button> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class = "column">
+            <div class = "card">
+                <img src = "images/BER_VERITHIN_pencil fan.jpg" alt = "whiteboard1" style = "width:100%">
+                <div class = "container">
+                    <h4><b>Educator Groups</b></h4>
+                    <p><button class = "button"><a href = "EducatorGroups.html"><p style = "color: white;">View Group</button> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class = "column">
+            <div class = "card">
+                <img src = "images/BER_VERITHIN_pencil fan.jpg" alt = "add" style = "width:100%">
+                <div class = "container">
+                    <h4><b>Create Group</b></h4>
+                    <p><button class = "button">Create Group</button> </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+    
+
+    <script>
+        function openNav() {
+            document.getElementById("sidenavbar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+        function closeNav() {
+            document.getElementById("sidenavbar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+    </body>
+
+</html>
