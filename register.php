@@ -10,7 +10,7 @@
     <header>
 		<div class="logo">
 		  <img src="collabNexusLogo.png" alt="Collab Nexus Logo">
-		  <h1>Task Troopers: Login</h1>
+		  <h1>Task Troopers: Register</h1>
 		</div>
 		<div class="profile">
 		  <img src="placeholder.jpg" alt="Profile Picture" class="profile-picture">
@@ -19,10 +19,13 @@
 	<section>
 	<div class="form">
 		<form action="register.php" method="post">
+			<h1>Enter username</h1>
 			<input type = "text" name="username" placeholder="Username"><br>
+			<h1>Enter password</h1>
 			<input type = "password" name="password" placeholder="Password"><br>
+			<h1>Enter email</h1>
 			<input type = "text" name="email" placeholder="Email"><br>
-			<label>Are you a student or Educator?</label><br>
+			<label>Are you a student or an Educator?</label><br>
 			<select name="usertype">
 				<option value="student">Student</option>
 				<option value="educator">Educator</option>
