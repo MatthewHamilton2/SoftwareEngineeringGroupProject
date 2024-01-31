@@ -1,20 +1,83 @@
-input[type=text], input[type=password]{
-    border: none;
-    border-radius: 20px;
-    height: 36px;
-    width: 270px;
-    font-size: 13pt;
-    margin-bottom: 10%;
+body {
+    font-family: sans-serif;
+	/*font-size: 22px;*/
 }
 
-input[type=submit]{
-    border:none;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: blue;
+  color: white;
+  margin-bottom: 40px;
+  border-radius: 15px;
+}
+
+.logo {
+  display: flex; /* Nested flexbox for logo */
+  align-items: center; /* Center items vertically */
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  float: left;
+}
+
+.logo h1 {
+  margin: 0;
+  float: right;
+  color: #FF914D;
+}
+
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.form {
+  text-align: center; /* Center align all content within the .form div */
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #D8D8D8;
+}
+
+
+.form input {
+	display: block; /* Ensures input elements take full width within the centered container */
+	margin: 0 auto 20px; /* Centers the input elements horizontally */
+	border: none;
+    border-radius: 30px;
+    height: 72px;
+    width: 540px;
+    font-size: 18pt;
+	padding-left: 20px;
+	
+}
+
+.form input[type=submit]{
+    display: block; /* Ensures input elements take full width within the centered container */
+	margin: 0 auto 20px; /* Centers the input elements horizontally */
+	border:none;
     color: black;
     background-color: azure;
-    padding:5px;
+    padding:10px;
     cursor: pointer;
-    margin-top: 3px;
-    width: 80px;
-    height: 35px;
-    margin-bottom: 10%;
+    width: 100px;
+    height: 55px;
+}
+
+.form h1 {
+	font-size: 18pt;
+}
+
+.form .register {
+	margin: 0 auto 20px;
+	font-size: 10pt;
 }
