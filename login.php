@@ -56,7 +56,7 @@
 				}
 				}
 				?>
-			<h1 class="register">Dont have an account? Then register <a href="register.php">here</a></h1>
+			<h1 class="alternative">Dont have an account? Then register <a href="register.php">here</a></h1>
 		</div>
     </Section>
 </body>
