@@ -14,10 +14,37 @@
   </head>
 
   <body>
-    <div class="container">
-      <h1>Collaborative Whiteboard</h1>
-      <div id="app"></div>
+        <div class="container">
+      <div id="excali"></div>
     </div>
-    <script type="text/javascript" src="packages/excalidraw/index.js"></script>
+    
+    <script>
+    
+         var excalidrawAPI, setExcalidrawAPI;
+
+         var options =  {     
+                langCode: 'fr-FR',
+                ref: (api) => setExcalidrawAPI(api), 
+                initialData: {
+                   libraryItems: libraryFile.libraryItems,   //from a libray file
+                   elements:   [ someelement ]
+                }
+             };
+                  
+         const App = () => {
+
+             [excalidrawAPI, setExcalidrawAPI] = React.useState(null);
+  
+             return React.createElement( React.Fragment, null,
+                           React.createElement( "div", { style: { height: "100vh" }, },
+                           React.createElement( ExcalidrawLib.Excalidraw, options ), ),  //put options here
+                    );
+         };  
+
+       const excali = document.getElementById("excali");
+       const root   = ReactDOM.createRoot(excali);
+             root.render(React.createElement(App));
+             
+    </script>
   </body>
 </html>
