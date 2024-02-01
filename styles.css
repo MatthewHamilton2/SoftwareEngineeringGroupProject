@@ -333,3 +333,12 @@ h4 {
   .sidenav a {font-size: 18px;}
     
 }
+
+footer {
+	position: fixed;
+	bottom: 0;
+	color: black;
+    text-align: center;
+	width: 100%;
+	font-size: 8pt;
+}
