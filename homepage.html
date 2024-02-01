@@ -5,7 +5,7 @@
 
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css" /> 
+    <link rel="stylesheet" type="text/css" href="styles.css" /> 
 
     </head>
     <body>
@@ -15,7 +15,7 @@
     <div id = "sidenavbar" class="sidenav">
         
         
-        <a href = "index.html">Home</a>
+        <a href = "homepage.html">Home</a>
         <a href = "StudentGroup.html">Student Groups</a>
         <a href = "EducatorGroups.html">Educator Groups</a>
         <a href = "Profile.html" class="split">My Profile</a>
@@ -25,12 +25,20 @@
     </div>
    
     
-    
+    <header>
+			<span class="navSpan" onclick = "openNav()">&#9776;</span>
+			<div class="logo">
+			  <img src="collabNexusLogo.png" alt="Collab Nexus Logo">
+			  <h1>Task Troopers: Home</h1>
+			</div>
+			<div class="profile">
+			  <img src="placeholder.jpg" alt="Profile Picture" class="profile-picture">
+			</div>
+		</header>
 
 
     <div id = "main">
     
-    <span style = "font-size:30px;cursor:pointer" onclick = "openNav()">&#9776; Collab Nexus </span> 
     
     <h3 style = "text-align:center; font-size:20px" >Homepage</h3>
     
@@ -80,6 +88,9 @@
             document.getElementById("sidenavbar").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
         }
+		
+		
+		window.onload = closeNav; // Remove parentheses
     </script>
     </body>
 
