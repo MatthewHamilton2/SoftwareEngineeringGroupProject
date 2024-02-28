@@ -1,8 +1,4 @@
 <?php
-    $server = "localhost";
-    $username = "root";
-    $password = "";
-    $database ="studentwebsite";
-
-    $conn = mysqli_connect($server, $username, $password, $database);
+    //$conn = mysqli_connect('database-1.cnqeamc2mgky.eu-north-1.rds.amazonaws.com', 'admin', 'password', 'studentwebsite', '3306');
+    $conn = mysqli_connect('localhost', 'root', '', 'studentwebsite');
 ?>

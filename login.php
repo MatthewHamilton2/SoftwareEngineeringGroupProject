@@ -1,19 +1,20 @@
+<?php
+	session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body class = "unset">
     <header>
 		<div class="logo">
-		  <img src="collabNexusLogo.png" alt="Collab Nexus Logo">
+		  <img src="placeHolder.PNG" alt="Collab Nexus Logo">
 		  <h1>Task Troopers: Login</h1>
-		</div>
-		<div class="profile">
-		  <img src="placeholder.jpg" alt="Profile Picture" class="profile-picture">
 		</div>
   </header>
 	<Section>
@@ -43,7 +44,8 @@
 				$result = mysqli_query($conn, $sql);
 				if(mysqli_num_rows($result) > 0){
 					if(password_verify($password, mysqli_fetch_assoc($result)["password"])){
-						echo"login successful";
+						$_SESSION["username"] = $username;
+						echo "<script> location.href='index.php'; </script>";
 					}
 					else{
 						echo"That Username or Password was incorrect";

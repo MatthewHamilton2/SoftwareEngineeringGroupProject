@@ -1,19 +1,20 @@
+<?php
+	session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body class="unset">
     <header>
 		<div class="logo">
-		  <img src="collabNexusLogo.png" alt="Collab Nexus Logo">
+		  <img src="placeHolder.PNG" alt="Collab Nexus Logo">
 		  <h1>Task Troopers: Register</h1>
-		</div>
-		<div class="profile">
-		  <img src="placeholder.jpg" alt="Profile Picture" class="profile-picture">
 		</div>
 	</header>
 	<section>
@@ -25,11 +26,6 @@
 			<input type = "password" name="password" placeholder="Password"><br>
 			<h1>Enter email</h1>
 			<input type = "text" name="email" placeholder="Email"><br>
-			<label>Are you a student or an Educator?</label><br>
-			<select name="usertype">
-				<option value="student">Student</option>
-				<option value="educator">Educator</option>
-			</select>
 			<br>
 			<input type = "submit" name = "submit" value = "Register">
 		</form>
@@ -39,7 +35,6 @@
 			$username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
 			$password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 			$email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-			$type = $_POST["usertype"];
 
 			if(empty($username)){
 				echo"Please enter a Username"."<br>";
@@ -53,8 +48,10 @@
 			else {
 			$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 			try{
-			$sql = "INSERT INTO users (username, password, email, type) VALUES ('$username', '$hashedPassword', '$email', '$type')";
+			$sql = "INSERT INTO users (username, password, email, type) VALUES ('$username', '$hashedPassword', '$email', 'educator')";
 			mysqli_query($conn, $sql);
+			$_SESSION["username"] = $username;
+			echo "<script> location.href='index.php'; </script>";
 			}
 			catch(mysqli_sql_exception){
 				$sql = "SELECT username FROM users WHERE username = '$username'";
