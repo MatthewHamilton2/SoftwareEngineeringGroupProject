@@ -13,19 +13,20 @@
 </head>
 <body id="studentGroupBody">
   <div id="nav-bar">
-    <button class="backButton" onclick="goto('index.php')">&larr;</button>
+    <button class="backButton" onclick="goto('index.php')" style ="font-size: 40px; padding-bottom: 11.5px;";>&larr;</button> <button id="settings-button">Settings</button>
+   
     <div id="nav-bar-header">
     <?php
         $groupid = $_GET['groupid'];
         $sql = "SELECT groupname FROM chatgroup WHERE groupid = '$groupid'";
         $result = mysqli_query($conn, $sql);
         $groupname = mysqli_fetch_assoc($result)['groupname'];
-        echo "<h3>".$groupname."</h3>";
+        echo "<h3 style='text-align:center; font-size: 20px;'>".$groupname."</h3>";
       ?>
-      <button id="settings-button">Settings</button>
+    
     </div>
     <div id="channels">
-      <h4>Text Channels</h4>
+      <h4>Channels</h4>
       <button class="channelButton">#general</button>
       <button class="channelButton">#random</button>
       <?php
@@ -33,8 +34,8 @@
           $result = mysqli_query($conn, $sql);
           $code = mysqli_fetch_assoc($result)['joincode'];
           echo"
-          <h3> Join Code: </h3>
-          <h3>
+          <h4> Join Code: </h4>
+          <h3 style= 'margin-left:15px'>
           ".$code."
           </h3>";
       ?>
@@ -71,9 +72,13 @@
       ?>
     </div>
   </div>
+  <div>
+    <button id="create-event-button">Create Event</button>
+  </div>
+  
   <div id="members-bar">
     <div id="members">
-      <h4>Members</h4>
+      <h4 style="margin-left: 15px;">Members</h4>
     </div>
     <div id="members-list">
       <ul>
