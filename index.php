@@ -37,7 +37,7 @@ if(!isset($_SESSION['username'])){
 			<span class="navSpan" onclick = "openNav()">&#9776;</span>
 			<div class="logo">
 			  <img src="placeHolder.PNG" alt="Collab Nexus Logo">
-			  <h1>Task Troopers: Home</h1>
+			  <h1>Collab Nexus: Home</h1>
 			</div>
 			<div class="profile">
 			  <img src="placeHolder.PNG" alt="Profile Picture" class="profile-picture">
@@ -45,12 +45,13 @@ if(!isset($_SESSION['username'])){
 		</header>
 
     <div id="main">
+        <!--hompage header -->
+        <!--h3 style="text-align:center; margin-top:-30px; padding: 20px; font-size:40px"></h3> -->
 
-        <h3 style="text-align:center; font-size:20px">Homepage</h3>
-
-        <h3>Student Groups</h3>
+        <h3 style= "margin-top:-50px; font-size:25px; background-color: blue; color: white;">Student Groups</h3>
         <div class="row">
             <div class='groupContainer'>
+            <button class="createButton" onclick="appearModal('modalStudentGroups')">+</button>
                 <?php
                 $username = $_SESSION["username"];
                 $sql = "SELECT groupid from groups2users WHERE user = '$username'";
@@ -73,9 +74,10 @@ if(!isset($_SESSION['username'])){
                     ";
                 }
                 ?>
+
             </div>
 
-            <button class="createButton" onclick="appearModal('modalStudentGroups')">+</button>
+           
 
         </div>
 
@@ -97,9 +99,10 @@ if(!isset($_SESSION['username'])){
             </form>
         </dialog>
         
-        <h3>Educator Groups</h3>
+        <h3 style= " font-size:25px; background-color: blue; color: white;">Educator Groups</h3>
         <div class="row">
             <div class='groupContainer'>
+            <button class="createButton" onclick="appearModal('modaleducatorGroups')">+</button>
                 <?php
                 $username = $_SESSION["username"];
                 $sql = "SELECT groupid from educatorgroups2users WHERE user = '$username'";
@@ -124,7 +127,7 @@ if(!isset($_SESSION['username'])){
                 ?>
             </div>
 
-            <button class="createButton" onclick="appearModal('modaleducatorGroups')">+</button>
+            
         </div>
 
         <dialog id="modaleducatorGroups">
