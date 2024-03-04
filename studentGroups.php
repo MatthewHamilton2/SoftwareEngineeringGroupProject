@@ -84,9 +84,12 @@
       ?>
     </div>
   </div>
+  <div>
+    <button id="create-event-button">Create Event</button>
+  </div>
   
   
-
+  
 
   <div id="members-bar">
     <button id="create-event-button" onclick="openForm()" style="font-size: 20px; margin-left: 15px; padding: 20px; font-weight: bold;">Create Event</button>
