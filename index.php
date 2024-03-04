@@ -40,15 +40,15 @@ if(!isset($_SESSION['username'])){
 			  <h1>Collab Nexus: Home</h1>
 			</div>
 			<div class="profile">
-			  <img src="placeHolder.PNG" alt="Profile Picture" class="profile-picture">
+			  <img src="profile.png" alt="Profile Picture" class="profile-picture">
 			</div>
 		</header>
 
     <div id="main">
         <!--hompage header -->
-        <!--h3 style="text-align:center; margin-top:-30px; padding: 20px; font-size:40px"></h3> -->
+        <!--h3 style="text-align:center; margin-top:-30px; padding: 20px; font-size:40px; padding "></h3> -->
 
-        <h3 style= "margin-top:-50px; font-size:25px; background-color: blue; color: white;">Student Groups</h3>
+        <h3 style= "margin-top:-25px; font-size:25px; background-color: blue; color: white; padding: 15px">Student Groups</h3>
         <div class="row">
             <div class='groupContainer'>
             <button class="createButton" onclick="appearModal('modalStudentGroups')">+</button>
@@ -99,7 +99,7 @@ if(!isset($_SESSION['username'])){
             </form>
         </dialog>
         
-        <h3 style= " font-size:25px; background-color: blue; color: white;">Educator Groups</h3>
+        <h3 style= " font-size:25px; background-color: blue; color: white; padding: 15px;">Educator Groups</h3>
         <div class="row">
             <div class='groupContainer'>
             <button class="createButton" onclick="appearModal('modaleducatorGroups')">+</button>
