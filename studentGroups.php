@@ -10,6 +10,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>student-group-page</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding : 20px;
+      z-index: 9999;
+    }
+  </style>
 </head>
 <body id="studentGroupBody">
   <div id="nav-bar">
@@ -76,7 +88,26 @@
     <button id="create-event-button">Create Event</button>
   </div>
   
+  
+  
+
   <div id="members-bar">
+    <button id="create-event-button" onclick="openForm()" style="font-size: 20px; margin-left: 15px; padding: 20px; font-weight: bold;">Create Event</button>
+
+    <div class="popup" id="popupForm">
+    <h13>Create Event</h13>
+    <form method="post" id="createevent">
+      <input type="text" name = "eventname" placeholder="Event Name" style="margin-top: 15px; margin-bottom: 10px; width: 97%;"><br>
+      <input type="text" name = "description" placeholder="Description" style="margin-bottom: 10px; width: 97%;"><br>
+      <input type="text" name = "maxparticipants" placeholder="Participants" style="margin-bottom: 10px; width: 97%;"><br>
+      <input type="text" name = "duration" placeholder="Duration" style="margin-bottom: 10px; width: 97%;"><br>
+      <input type="date" name = "starttime" placeholder="Date" style="width: 98%; margin-bottom: 10px; font-size: 15px;"><br>
+      <input type="submit" value="Create Event" style="width: 98%; font-size: 15px;">
+    </form>
+    <button onclick="closeForm()" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
+  </div>
+
+
     <div id="members">
       <h4 style="margin-left: 15px;">Members</h4>
     </div>
@@ -112,18 +143,19 @@
     function goto(destination){
         location.href = destination;
     }
+
+    function openForm(){
+      document.getElementById("popupForm").style.display = "block";
+    }
+
+    function closeForm(){
+      document.getElementById("popupForm").style.display = "none";
+    }
   </script>
 </body>
 </html>
 
-<form method="post" id="createevent">
-  <input type="text" name = "eventname" placeholder="Event Name"><br>
-  <input type="text" name = "maxparticipants" placeholder="Participants"><br>
-  <input type="date" name = "starttime" placeholder="Date"><br>
-  <input type="text" name = "duration" placeholder="Duration"><br>
-  <input type="text" name = "description" placeholder="Description"><br>
-  <input type="submit" value="Create Event">
-</form>
+
 <div>
   <?php
     $sql = "SELECT * FROM events WHERE groupid='$groupid'";
@@ -131,11 +163,17 @@
     while($row = mysqli_fetch_assoc($result)){
         $name = $row["eventname"];
         $eventid = $row["eventid"];
+        $duration = $row["duration"];
+        $starttime = date('Y-m-d', strtotime($row["starttime"]));
         echo "
-        $name <br>
+        <div class= 'event-info'>
+          <p><stong>Name: </strong>$name</p>
+          <p><stong>Duration: </strong>$duration</p>
+          <p><stong>Start Time: </strong>$starttime</p>
         <form method = 'post'>
-        <button class = 'eventjoin' value='".$eventid."'>Join Event</button>
-        <br>
+            <button class = 'eventjoin' value='".$eventid."' style ='width: 100%; background-color: azure; color: black; font-size: 20px; margin-right: 40px;'>Join Event</button>
+          </form>
+        </div>
         ";
     }
   ?>
