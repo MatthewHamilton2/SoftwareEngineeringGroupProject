@@ -151,7 +151,7 @@ h4 {
     border: 1px solid black;
     padding: 10px;
     width: 90%;
-    height: 13.5vh;
+    height: 10%;
     display: inline-block;
 }
 
@@ -309,7 +309,7 @@ body {
     padding :15px;
     padding-left: 20px;
     padding-right: 20px;
-    margin-left: 0px;
+    margin-left: 45px;
 }
 
 #view-members {
@@ -421,7 +421,7 @@ header {
 	background-color: blue;
 	color: white;
 	margin-bottom: 40px;
-	border-radius: 15px;
+
 }
 
 .navSpan {
@@ -467,7 +467,10 @@ header {
 }
 
 #annheader button{
-	margin-left: 50px;
+    display: block;
+    width:100%;
+    margin: 5px auto; 
+    box-sizing: border-box;
 }
 
 #annbody{
@@ -627,5 +630,6 @@ h13{
 
 .event-info{
     margin-bottom: 10px;
-    margin-left: 5px;
+    margin-left: 20px;
+    font-size: 12px;
 }
