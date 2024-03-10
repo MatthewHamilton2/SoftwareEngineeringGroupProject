@@ -22,4 +22,5 @@
             mysqli_query($conn, $sql);
 		}
 	}
+  echo "<script> location.href='studentGroups.php"."?groupid=$groupid'; </script>";
 ?>

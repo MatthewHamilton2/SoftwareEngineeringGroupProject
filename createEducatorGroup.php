@@ -13,5 +13,7 @@
     $groupid = mysqli_fetch_assoc($result)["groupid"];
     $sql="INSERT INTO educatorgroups2users (user, groupid) VALUES ('$user', '$groupid')";
     mysqli_query($conn, $sql);
-    echo "<script> location.href='EducatorGroups.php"."?groupid=".$groupid."'; </script>";
+    $sql="INSERT INTO discussions (discussionName, groupid) VALUES ('general', '$groupid')";
+    mysqli_query($conn, $sql);
+    echo "<script> location.href='EducatorGroups.php"."?groupid=$groupid&channel=general'; </script>";
 ?>

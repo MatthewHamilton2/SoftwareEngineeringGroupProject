@@ -119,7 +119,7 @@ if(!isset($_SESSION['username'])){
             <img src='./placeHolder.PNG' class='groupImage'></img>
             </div>
             <div class = groupImageText>
-                <a href='EducatorGroups.php?groupid=" . $id . "'>" . $name . "</a>
+                <a href='EducatorGroups.php?groupid=" . $id . "&channel=general'>" . $name . "</a>
             </div>
         </div>
         ";

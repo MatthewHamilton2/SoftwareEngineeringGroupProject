@@ -11,7 +11,7 @@
         $username = $_SESSION["username"];
         $sql = "INSERT INTO educatorgroups2users (groupid, user) VALUES ('$groupid', '$username')";
         mysqli_query($conn, $sql);
-        echo "<script> location.href='EducatorGroups.php"."?groupid=".$groupid."'; </script>";
+        echo "<script> location.href='EducatorGroups.php"."?groupid=$groupid&channel=general'; </script>";
     }
     else{
         echo"invalid code";
