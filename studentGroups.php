@@ -24,54 +24,95 @@
   </style>
 </head>
 <body id="studentGroupBody">
-  <div id="nav-bar">
-    <button class="backButton" onclick="goto('index.php')" style ="font-size: 40px; padding-bottom: 11.5px;";>&larr;</button> <button id="settings-button">Settings</button>
-   
+	<div id="nav-bar">
+		<div id="sidenavbar" class="sidenav" style="display:none">
+			<a href="index.php">Home</a>
+			<a href="Profile.html" class="split">My Profile</a>
+			<a href="settings_page/settings.html" class="split">Settings</a>
+			<a href="logout.php" class="split">Logout</a>
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		</div>
+		<span class="navSpan" onclick = "openNav()">&#9776;</span>
+		
+		<button id="event-button" onclick="openEvents()">Events</button>
+	
+	</div>
+  <div id="chat">
+    
     <div id="nav-bar-header">
     <?php
         $groupid = $_GET['groupid'];
         $sql = "SELECT groupname FROM chatgroup WHERE groupid = '$groupid'";
         $result = mysqli_query($conn, $sql);
         $groupname = mysqli_fetch_assoc($result)['groupname'];
-        echo "<h3 style='text-align:center; font-size: 20px;'>".$groupname."</h3>";
-      ?>
-    
-    </div>
-    <div id="channels">
-      <h4>Channels</h4>
-      <button class="channelButton">#general</button>
-      <button class="channelButton">#random</button>
-      <?php
-          $sql = "SELECT joincode FROM chatgroup WHERE groupid = '$groupid'";
-          $result = mysqli_query($conn, $sql);
-          $code = mysqli_fetch_assoc($result)['joincode'];
-          echo"
-          <h4> Join Code: </h4>
-          <h3 style= 'margin-left:15px'>
-          ".$code."
-          </h3>";
+        echo "<h3 style='text-align:center; font-size: 30px;'>".$groupname."</h3>";
       ?>
     </div>
-  </div>
-  <div id="chat">
-    <div id ="chatdiv">
-      <?php
-      $groupid = $_GET['groupid'];
-        $sql = "SELECT * FROM (SELECT * FROM message WHERE groupid = ".$groupid." ORDER BY timeSent DESC LIMIT 10) AS subquery ORDER BY subquery.timeSent ASC";
-        $result = mysqli_query($conn, $sql);
-        echo"<div class = 'chatcontainer'>";
-        while($row = mysqli_fetch_assoc($result)){
-            $message = $row['messageText'];
-            $sender = $row['user'];
-            echo "
-            <div class='chatmessage'>
-            <p class='messagesender'>$sender"."<br>"."</p>
-            <p>$message"."<br>"."</p>
-            </div>
-            ";
-        }
-        echo"</div>";
-      ?>
+
+	
+	<div id ="chatdiv">
+		<div style="display: none" id="event-overlay">
+			<div id="event-content">
+				<a href="javascript:void(0)" class="event-close" onclick="closeEvents()">&times;</a>
+				<?php
+					$sql = "SELECT * FROM events WHERE groupid='$groupid'";
+					$result = mysqli_query($conn, $sql);
+					echo "<div class='event-grid'>";
+					
+					if(mysqli_num_rows($result) > 0) {
+						while($row = mysqli_fetch_assoc($result)) {
+							$name = $row["eventname"];
+							$eventid = $row["eventid"];
+							$duration = $row["duration"];
+							$starttime = date('Y-m-d', strtotime($row["starttime"]));
+
+							// Acquire username from session
+							$username = $_SESSION["username"];
+							
+							// Check if user is already in the event
+							$sql_check_user_event = "SELECT * FROM events2users WHERE eventid='$eventid' AND username='$username'";
+							$result_check_user_event = mysqli_query($conn, $sql_check_user_event);
+							$is_user_in_event = mysqli_num_rows($result_check_user_event) > 0;
+
+							echo "
+							<div class='event-info'>
+								<p><strong>Name: </strong>$name</p>
+								<p><strong>Duration: </strong>$duration</p>
+								<p><strong>Start Time: </strong>$starttime</p>
+								<form method='post'>
+									<button class='eventjoin' value='$eventid' style='width: 75%; background-color: azure; color: black; font-size: 20px; text-align:center; margin: auto;'>
+									" . ($is_user_in_event ? 'Joined' : 'Join Event') . "</button>
+								</form>
+							</div>
+							";
+						}
+					} else {
+						echo "<div style='text-align: center; width:100%; display: block; margin: auto;'><p style='margin: 20px; text-align: center;'>No events planned..</p></div>";
+					}
+					echo "</div>";
+				?>
+				
+			</div>
+			
+			<button id="create-event-button" onclick="openForm()" style="display: block; margin-top: 40px; font-size: 20px; padding: 20px; font-weight: bold; margin:auto;">Create Event</button>
+		</div>
+		<?php
+			$groupid = $_GET['groupid'];
+			$sql = "SELECT * FROM (SELECT * FROM message WHERE groupid = ".$groupid." ORDER BY timeSent DESC LIMIT 10) AS subquery ORDER BY subquery.timeSent ASC";
+			$result = mysqli_query($conn, $sql);
+			echo"<div class = 'chatcontainer'>";
+			while($row = mysqli_fetch_assoc($result)){
+				$message = $row['messageText'];
+				$sender = $row['user'];
+				echo "
+				<div class='chatmessage'>
+				<p class='messagesender'>$sender"."<br>"."</p>
+				<p>$message"."<br>"."</p>
+				</div>
+				";
+			}
+			echo"</div>";
+		?>
     </div>
     <div id="inputContainer">
       <?php
@@ -84,15 +125,21 @@
       ?>
     </div>
   </div>
-  <div>
-    <button id="create-event-button">Create Event</button>
-  </div>
   
   
   
 
   <div id="members-bar">
-    <button id="create-event-button" onclick="openForm()" style="font-size: 20px; margin-left: 15px; padding: 20px; font-weight: bold;">Create Event</button>
+    <?php
+		$sql = "SELECT joincode FROM chatgroup WHERE groupid = '$groupid'";
+		$result = mysqli_query($conn, $sql);
+		$code = mysqli_fetch_assoc($result)['joincode'];
+		echo"
+		<h4> Join Code: </h4>
+		<h3 style= 'margin-left:15px'>
+		".$code."
+		</h3>";
+	?>
 
     <div class="popup" id="popupForm">
     <h13>Create Event</h13>
@@ -151,33 +198,25 @@
     function closeForm(){
       document.getElementById("popupForm").style.display = "none";
     }
+	
+	function openEvents() {
+        document.getElementById('event-overlay').style.display = 'block';
+        var chatContainers = document.getElementsByClassName('chatcontainer');
+		for (var i = 0; i < chatContainers.length; i++) {
+			chatContainers[i].style.display = 'none';
+		}
+    }
+
+    function closeEvents() {
+        document.getElementById('event-overlay').style.display = 'none';
+        var chatContainers = document.getElementsByClassName('chatcontainer');
+		for (var i = 0; i < chatContainers.length; i++) {
+			chatContainers[i].style.display = 'block';
+		}
+    }
   </script>
 </body>
 </html>
-
-
-<div>
-  <?php
-    $sql = "SELECT * FROM events WHERE groupid='$groupid'";
-    $result = mysqli_query($conn, $sql);
-    while($row = mysqli_fetch_assoc($result)){
-        $name = $row["eventname"];
-        $eventid = $row["eventid"];
-        $duration = $row["duration"];
-        $starttime = date('Y-m-d', strtotime($row["starttime"]));
-        echo "
-        <div class= 'event-info'>
-          <p><stong>Name: </strong>$name</p>
-          <p><stong>Duration: </strong>$duration</p>
-          <p><stong>Start Time: </strong>$starttime</p>
-        <form method = 'post'>
-            <button class = 'eventjoin' value='".$eventid."' style ='width: 100%; background-color: azure; color: black; font-size: 20px; margin-right: 40px;'>Join Event</button>
-          </form>
-        </div>
-        ";
-    }
-  ?>
-</div>
 
 <script>
   $(document).ready(function(){
@@ -224,4 +263,27 @@
       })
     })
   })
+  
+window.onload = closeNav();
+
+function openNav() {
+	document.getElementById("sidenavbar").style.width = "250px";
+	document.getElementById("sidenavbar").style.display = "block";
+	document.getElementById("main").style.marginLeft = "250px";
+
+}
+
+function closeNav() {
+	document.getElementById("sidenavbar").style.width = "0";
+	document.getElementById("sidenavbar").style.display = "none";
+	document.getElementById("main").style.marginLeft = "0";
+}
+
+function appearModal(modal) {
+	document.getElementById(modal).showModal();
+}
+
+function disappearModal(modal) {
+	document.getElementById(modal).close();
+}
 </script>
