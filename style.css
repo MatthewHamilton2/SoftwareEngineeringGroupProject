@@ -242,15 +242,16 @@ body {
 #chat {
     flex: 1;
     /*padding: 0px;*/
-    overflow-y: scroll;
+    overflow-y: hidden;
     background-color: #2f3136;
     color: #fff;
+	overflow-x: hidden;
 }
 
 #members-bar {
     width: 15%;
     /*padding: 0px;*/
-    background-color: #2f3136;
+    background-color: #36393f;
     color: #fff;
 }
 
@@ -265,13 +266,19 @@ body {
     list-style-type: none;
 }
 
+#inputContainer {
+	width: 100%;
+	height: auto;
+}
+
 #messageInput {
     position: fixed;
     bottom: 10px;
-    width: auto;
+    width: 65vw;
     right: 500px;
     left: 300px;
     padding: 10px;
+	margin: auto;
 }
 
 .channelButton {
@@ -289,10 +296,9 @@ body {
 }
 
 #nav-bar-header {
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+	text-align: center;
 }
 
 #chat-name {
@@ -335,13 +341,16 @@ body {
     bottom: 0;
     position: absolute;
     display: inline-block;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .chatmessage{
     border: 1px solid grey;
     padding-left: 5%;
     width: 68vw;
-    padding-right: 4vw;
+    padding-right: 5%;
     word-wrap: break-word;
 }
 
@@ -360,6 +369,21 @@ body {
 #chatdiv{
     height: 75vh;
     position: relative;
+}
+
+#event-overlay {
+    height: 75vh;
+    position: relative;
+	overflow: auto; /* Enable scrolling if out of room */
+}
+
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	max-height: 400px; /* Maximum height before scrolling vertically */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    gap: 10px;
 }
 
 .backButton{
@@ -504,6 +528,8 @@ header {
 	height: 500px;
 	display: inline-block;
 	margin: none;
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 #groupscontent ul li{
@@ -636,4 +662,22 @@ h13{
     margin-bottom: 10px;
     margin-left: 20px;
     font-size: 12px;
+    border: 2px solid #ccc;
+	padding: 10px;
+}
+
+.event-close {
+    position: absolute;
+    top: -10px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+	
+#event-button {
+    font-size: 20px;
+    padding: 20px;
+    font-weight: bold;
+    margin-top: 0px; /* Adjust margin-top to move the button below navSpan */
+	margin-left: 85px;
 }
