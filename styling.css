@@ -660,3 +660,30 @@ h13{
     margin-left: 20px;
     font-size: 12px;
 }
+
+.ProfileButton img {
+    height: 250px;
+    width: 250px;
+    position: relative;
+}
+.ProfileButton {
+    height: 250px;
+    width: 250px;
+    margin-left: 30px;
+    font-size: 5em;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileContainer {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

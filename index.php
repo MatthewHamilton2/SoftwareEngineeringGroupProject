@@ -18,7 +18,7 @@ if(!isset($_SESSION['username'])){
 <body class="unset">
 	<div id="sidenavbar" class="sidenav">
 		<!--  <a href="index.php">Home</a> -->
-		<a href="profile.php" class="split">My Profile</a>
+		<a href="profilePage.html" class="split">My Profile</a>
 		<!--  <a href="settings_page/settings.php" class="split">Settings</a>  -->
 		<a href="logout.php" class="split">Logout</a>
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
