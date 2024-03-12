@@ -53,7 +53,7 @@
 	<div id ="chatdiv">
 		<div style="display: none" id="event-overlay">
 			<div id="event-content">
-				<a href="javascript:void(0)" class="event-close" onclick="closeEvents()">&times;</a>
+				<a href="javascript:void(0)" class="event-close" onclick="closeEvents()">X</a>
 				<?php
 					$sql = "SELECT * FROM events WHERE groupid='$groupid'";
 					$result = mysqli_query($conn, $sql);
@@ -96,9 +96,10 @@
 			
 			<button id="create-event-button" onclick="openForm()" style="display: block; margin-top: 40px; font-size: 20px; padding: 20px; font-weight: bold; margin:auto;">Create Event</button>
 		</div>
+    <div id = "innerchat">
 		<?php
 			$groupid = $_GET['groupid'];
-			$sql = "SELECT * FROM (SELECT * FROM message WHERE groupid = ".$groupid." ORDER BY timeSent DESC LIMIT 10) AS subquery ORDER BY subquery.timeSent ASC";
+			$sql = "SELECT * FROM (SELECT * FROM message WHERE groupid = ".$groupid." ORDER BY timeSent DESC) AS subquery ORDER BY subquery.timeSent ASC";
 			$result = mysqli_query($conn, $sql);
 			echo"<div class = 'chatcontainer'>";
 			while($row = mysqli_fetch_assoc($result)){
@@ -123,6 +124,7 @@
       </form>
       ";
       ?>
+      </div>
     </div>
   </div>
   
@@ -180,7 +182,7 @@
   <script>
     $(document).ready(function(){
       setInterval(function(){
-        $('#chatdiv').load('studentGroups.php?groupid=".$groupid." #chatdiv');
+        $('#innerchat').load('studentGroups.php?groupid=".$groupid." #chatdiv');
       }, 3000);
     });
   </script>
@@ -201,6 +203,7 @@
 	
 	function openEvents() {
         document.getElementById('event-overlay').style.display = 'block';
+        document.getElementById('innerchat').style.display = 'none';
         var chatContainers = document.getElementsByClassName('chatcontainer');
 		for (var i = 0; i < chatContainers.length; i++) {
 			chatContainers[i].style.display = 'none';
@@ -209,6 +212,7 @@
 
     function closeEvents() {
         document.getElementById('event-overlay').style.display = 'none';
+        document.getElementById('innerchat').style.display = 'block';
         var chatContainers = document.getElementsByClassName('chatcontainer');
 		for (var i = 0; i < chatContainers.length; i++) {
 			chatContainers[i].style.display = 'block';
