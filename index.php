@@ -11,47 +11,40 @@ if(!isset($_SESSION['username'])){
 <html>
 
 <head>
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css" />
-
+    <link rel="stylesheet" type="text/css" href="styling.css" />
 </head>
 
 <body class="unset">
+	<div id="sidenavbar" class="sidenav">
+		<!--  <a href="index.php">Home</a> -->
+		<a href="profile.php" class="split">My Profile</a>
+		<!--  <a href="settings_page/settings.php" class="split">Settings</a>  -->
+		<a href="logout.php" class="split">Logout</a>
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
+	</div>
 
-
-<div id="sidenavbar" class="sidenav" style="display:none">
-
-
-			<a href="index.php">Home</a>
-			<a href="Profile.html" class="split">My Profile</a>
-			<a href="settings_page/settings.html" class="split">Settings</a>
-            <a href="logout.php" class="split">Logout</a>
-			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-		</div>
-
-        <header>
-			<span class="navSpan" onclick = "openNav()">&#9776;</span>
+	<header>
+		<!--  <span class="navSpan" onclick = "openNav()">&#9776;</span>  -->
+		<a href="index.php">
 			<div class="logo">
-			  <img src="placeHolder.PNG" alt="Collab Nexus Logo">
-			  <h1>Collab Nexus: Home</h1>
+				<img src="logo.png" alt="Collab Nexus Logo">
+				<h1>Collab Nexus: Home</h1>
 			</div>
-			<div class="profile">
-			  <img src="profile.png" alt="Profile Picture" class="profile-picture">
-			</div>
-		</header>
+		</a>
+		<div class="profile">
+			<img src="profile.png" alt="Profile Picture" class="profile-picture" onclick = "openNav()">
+		</div>
+	</header>
 
     <div id="main">
-        <!--hompage header -->
-        <!--h3 style="text-align:center; margin-top:-30px; padding: 20px; font-size:40px; padding "></h3> -->
+        <!--  hompage header  -->
+        <!--  h3 style="text-align:center; margin-top:-30px; padding: 20px; font-size:40px; padding "></h3>  -->
 
-        <h3 style= "margin-top:-25px; font-size:25px; background-color: blue; color: white; padding: 15px">Student Groups</h3>
+        <h3 class="groupHeader">Student Groups</h3>
         <div class="row">
             <div class='groupContainer'>
-            <button class="createButton" onclick="appearModal('modalStudentGroups')">+</button>
                 <?php
                 $username = $_SESSION["username"];
                 $sql = "SELECT groupid from groups2users WHERE user = '$username'";
@@ -64,21 +57,22 @@ if(!isset($_SESSION['username'])){
                     $name = mysqli_fetch_assoc($secondResult)['groupname'];
                     echo "
                         <div class = 'groupContainerInner'>
-                            <div>
-                            <img src='./placeHolder.PNG' class='groupImage'></img>
-                            </div>
-                            <div class = groupImageText>
-                                <a href='studentGroups.php?groupid=" . $id . "'>" . $name . "</a>
-                            </div>
+						<a href='studentGroups.php?groupid=" . $id . "' class='groupBtnName'>
+								<div>
+								<img src='./studentGroupIcon.png' class='groupImage'></img>
+								</div>
+								<div class = groupImageText>
+									 ". $name ."
+								</div>
+							</a>
                         </div>
                     ";
                 }
                 ?>
-
+				<div class = 'groupContainerInner'>
+					<button class="createButton" onclick="appearModal('modalStudentGroups')">+</button>
+				</div>
             </div>
-
-           
-
         </div>
 
         <dialog id="modalStudentGroups">
@@ -99,10 +93,9 @@ if(!isset($_SESSION['username'])){
             </form>
         </dialog>
         
-        <h3 style= " font-size:25px; background-color: blue; color: white; padding: 15px;">Educator Groups</h3>
+        <h3 class="groupHeader">Educator Groups</h3>
         <div class="row">
             <div class='groupContainer'>
-            <button class="createButton" onclick="appearModal('modaleducatorGroups')">+</button>
                 <?php
                 $username = $_SESSION["username"];
                 $sql = "SELECT groupid from educatorgroups2users WHERE user = '$username'";
@@ -114,20 +107,23 @@ if(!isset($_SESSION['username'])){
                     $secondResult = mysqli_query($conn, $sql);
                     $name = mysqli_fetch_assoc($secondResult)['groupname'];
                     echo "
-        <div class = 'groupContainerInner'>
-            <div>
-            <img src='./placeHolder.PNG' class='groupImage'></img>
-            </div>
-            <div class = groupImageText>
-                <a href='EducatorGroups.php?groupid=" . $id . "&channel=general'>" . $name . "</a>
-            </div>
-        </div>
-        ";
+						<div class = 'groupContainerInner'>
+							<a href='EducatorGroups.php?groupid=" . $id . "&channel=general' class='groupBtnName'>
+								<div>
+								<img src='./educatorGroupIcon.png' class='groupImage'></img>
+								</div>
+								<div class = groupImageText>
+									" . $name . "
+								</div>
+							</a>
+						</div>
+						";
                 }
                 ?>
+				<div class = 'groupContainerInner'>
+					<button class="createButton" onclick="appearModal('modaleducatorGroups')">+</button>
+				</div>
             </div>
-
-            
         </div>
 
         <dialog id="modaleducatorGroups">
@@ -148,31 +144,29 @@ if(!isset($_SESSION['username'])){
             </form>
         </dialog>
 
-        </div>
-        <script>
-            window.onload = closeNav();
+	</div>
+	<script>
+		window.onload = closeNav();
 
-            function openNav() {
-                document.getElementById("sidenavbar").style.width = "250px";
-                document.getElementById("sidenavbar").style.display = "block";
-                document.getElementById("main").style.marginLeft = "250px";
+		function openNav() {
+			document.getElementById("sidenavbar").style.width = "250px";
+			document.getElementById("main").style.marginRight = "250px";
 
-            }
+		}
 
-            function closeNav() {
-                document.getElementById("sidenavbar").style.width = "0";
-                document.getElementById("sidenavbar").style.display = "none";
-                document.getElementById("main").style.marginLeft = "0";
-            }
+		function closeNav() {
+			document.getElementById("sidenavbar").style.width = "0";
+			document.getElementById("main").style.marginRight = "0";
+		}
 
-            function appearModal(modal) {
-                document.getElementById(modal).showModal();
-            }
+		function appearModal(modal) {
+			document.getElementById(modal).showModal();
+		}
 
-            function disappearModal(modal) {
-                document.getElementById(modal).close();
-            }
-        </script>
+		function disappearModal(modal) {
+			document.getElementById(modal).close();
+		}
+	</script>
 </body>
 
 </html>
