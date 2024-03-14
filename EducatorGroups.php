@@ -65,7 +65,7 @@
         $sql = "SELECT groupname FROM educatorgroup WHERE groupid = '$groupid'";
         $result = mysqli_query($conn, $sql);
         $groupname = mysqli_fetch_assoc($result)['groupname'];
-        echo "<h3 style='text-align:center; font-size: 20px;'>".$groupname."</h3>";
+        echo "<h3 style='text-align:center; font-size: 20px; display: hide;'>".$groupname."</h3>";
       ?>
      
     </div>
@@ -118,6 +118,17 @@
 
 
   <div id="chat">
+    
+    <div id="header" style="background-color: #48a1f8; width:auto; padding: 5px">
+    <?php
+        $groupid = $_GET['groupid'];
+        $sql = "SELECT groupname FROM educatorgroup WHERE groupid = '$groupid'";
+        $result = mysqli_query($conn, $sql);
+        $groupname = mysqli_fetch_assoc($result)['groupname'];
+        echo "<h3 style='text-align:center; font-size: 30px;'>".$groupname."</h3>";
+      ?>
+    </div>
+
     <div id ="chatdiv">
       <?php
       $groupid = $_GET['groupid'];
@@ -144,12 +155,10 @@
       </form>
     </div>
   </div>
+  
+  
+  
   <div id="members-bar">
-
-
-
-
-
       <?php
           $sql = "SELECT joincode FROM educatorgroup WHERE groupid = '$groupid'";
           $result = mysqli_query($conn, $sql);
