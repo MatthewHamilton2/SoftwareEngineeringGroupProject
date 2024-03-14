@@ -159,7 +159,6 @@
   
   
   <div id="members-bar">
-
       <?php
           $sql = "SELECT joincode FROM educatorgroup WHERE groupid = '$groupid'";
           $result = mysqli_query($conn, $sql);
