@@ -20,6 +20,7 @@ if(!isset($_SESSION['username'])){
 		<!--  <a href="index.php">Home</a> -->
 		<a href="profilePage.html" class="split">My Profile</a>
 		<!--  <a href="settings_page/settings.php" class="split">Settings</a>  -->
+        <a href="statistics.php">Statistics</a>
 		<a href="logout.php" class="split">Logout</a>
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 

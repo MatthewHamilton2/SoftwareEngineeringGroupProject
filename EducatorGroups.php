@@ -10,7 +10,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>student-group-page</title>
-  <link rel="stylesheet" href="style3.css">
+  <link rel="stylesheet" href="style.css">
   <style>
 
 .dropbtn {
@@ -95,7 +95,7 @@
 
 
     <div class="dropdown">
-  <button onclick="toggleDropdown()" class="dropbtn">Create options</button>
+  <button onclick="toggleDropdown()" class="dropbtn">More options</button>
   <div id="myDropdown" class="dropdown-content">
    
           
@@ -119,7 +119,7 @@
 
   <div id="chat">
     
-    <div id="header" style="background-color: #48a1f8; width:auto; padding: 5px; position: relative; z-index: 1;">
+    <div id="header" style="background-color: #48a1f8; width:auto; padding: 5px">
     <?php
         $groupid = $_GET['groupid'];
         $sql = "SELECT groupname FROM educatorgroup WHERE groupid = '$groupid'";
@@ -159,7 +159,6 @@
   
   
   <div id="members-bar">
-
       <?php
           $sql = "SELECT joincode FROM educatorgroup WHERE groupid = '$groupid'";
           $result = mysqli_query($conn, $sql);
@@ -260,7 +259,7 @@
 					
 						<div class="popup" id="popupForm1" style="display: none;">
 							<form method="post"  id="adduser">
- 							<h15 style="margin-bottom: 10px; font-size: 20px; padding: 5px ">Enter student username</h1>
+ 							<h1 style="margin-bottom: 10px; font-size: 20px; padding: 5px ">Enter student username</h1>
 							<input type="text" name = "studentusername" placeholder="Username">
 							</form>
 						<button onclick="closeForm('popupForm1')" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
@@ -272,12 +271,12 @@
 						
 							<div class="popup" id="popupForm" style="display:none">
 								<h14 style="font-size: 20px;">Create Student Account</h14>
-									<form method="post"  id="accountCreate" style="padding: 10px;">
-									<h15 style="font-size: 15px; padding-left: 5px;">Enter username</h1>
+									<form method="post"  id="accountCreate">
+									<h1 style="font-size: 15px; padding-left: 5px;">Enter username</h1>
 									<input type = "text" name="username" placeholder="Username"><br>
-									<h15 style="font-size: 15px; padding-left: 5px;">Enter password</h1>
+									<h1 style="font-size: 15px; padding-left: 5px;">Enter password</h1>
 									<input type = "password" name="password" placeholder="Password"><br>
-									<h15 style="font-size: 15px; padding-left: 5px;">Enter email</h1>
+									<h1 style="font-size: 15px; padding-left: 5px;">Enter email</h1>
 									<input type = "text" name="email" placeholder="Email"><br>
 									<input type = "submit" name = "submit" value = "Register">
 								  </form>
@@ -472,7 +471,7 @@ $(document).ready(function(){
 
 
 <dialog id="modalDiscussion">
-		<button onclick="disappearModal('modalDiscussion')" style='background: azure;color: black;color: black;font-size: 20px;position: absolute;right: 10px;top: 10px;'>Close</button><br>
+		<button onclick="disappearModal('modalDiscussion')">X</button><br>
 		<?php
 		$groupid = $_GET['groupid'];
 		echo "
