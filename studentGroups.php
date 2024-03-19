@@ -33,8 +33,16 @@
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		</div>
 		<span class="navSpan" onclick = "openNav()">&#9776;</span>
-		
+    <br>
+    <br>
+    <br>
 		<button id="event-button" onclick="openEvents()">Events</button>
+    <br>
+    <button id = "draw-button" onclick="startdraw()">Draw</button>
+    <br>
+    <button id = "chat-button" onclick="openchat()">Chat</button>
+    <br>
+    <button id = "image-button" onclick="openimage()">Images</button>
 	
 	</div>
   <div id="chat">
@@ -115,6 +123,27 @@
 			echo"</div>";
 		?>
     </div>
+    <div style="display: none" id = "imagechat">
+      <?php
+        $sql = "SELECT * FROM (SELECT * FROM imagesent WHERE groupid = ".$groupid." ORDER BY timeSent DESC) AS subquery ORDER BY subquery.timeSent ASC";
+        $result = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_assoc($result)){
+            $sender = $row['sender'];
+            $imagedata = $row['imagedata'];
+            echo"
+            <div class='chatmessage'>
+            <p class='messagesender'>$sender<br></p>
+            <img src='data:image/png;base64," . base64_encode($imagedata) . "' alt='Image'>
+            </div>";
+        }
+      ?>
+    </div>
+    <?php
+      $username = $_SESSION['username'];
+      echo "
+      <iframe src=\"imagePrototype.php?groupid=$groupid&username=$username\" title=\"description\" id=\"drawing-div\"></iframe>
+      ";
+    ?>
     <div id="inputContainer">
       <?php
       $groupid = $_GET['groupid'];
@@ -202,22 +231,97 @@
     }
 	
 	function openEvents() {
+        document.getElementById('imagechat').style.display = 'none';
         document.getElementById('event-overlay').style.display = 'block';
         document.getElementById('innerchat').style.display = 'none';
-        var chatContainers = document.getElementsByClassName('chatcontainer');
-		for (var i = 0; i < chatContainers.length; i++) {
-			chatContainers[i].style.display = 'none';
-		}
+        var drawingdiv = document.getElementById('drawing-div-show');
+        if(drawingdiv){
+          drawingdiv.setAttribute('id', "drawing-div");
+        }
+        while(document.getElementById('drawing-div-show')){
+        document.getElementById('drawing-div-show').setAttribute('id', "drawing-div");
+      }
     }
 
     function closeEvents() {
         document.getElementById('event-overlay').style.display = 'none';
         document.getElementById('innerchat').style.display = 'block';
-        var chatContainers = document.getElementsByClassName('chatcontainer');
-		for (var i = 0; i < chatContainers.length; i++) {
-			chatContainers[i].style.display = 'block';
-		}
     }
+
+    function openchat(){
+        document.getElementById('imagechat').style.display = 'none';
+        document.getElementById('event-overlay').style.display = 'none';
+        document.getElementById('imagechat').style.display = 'none';
+        document.getElementById('innerchat').style.display = 'block';
+        var drawingdiv = document.getElementById('drawing-div-show');
+        if(drawingdiv){
+          drawingdiv.setAttribute('id', "drawing-div");
+        }
+        while(document.getElementById('drawing-div-show')){
+        document.getElementById('drawing-div-show').setAttribute('id', "drawing-div");
+      }
+    }
+
+    function openimage(){
+        document.getElementById('imagechat').style.display = 'block';
+        document.getElementById('event-overlay').style.display = 'none';
+        document.getElementById('innerchat').style.display = 'none';
+        var drawingdiv = document.getElementById('drawing-div-show');
+        if(drawingdiv){
+          drawingdiv.setAttribute('id', "drawing-div");
+        }
+        while(document.getElementById('drawing-div-show')){
+        document.getElementById('drawing-div-show').setAttribute('id', "drawing-div");
+      }
+    }
+
+    function startdraw(){
+      document.getElementById('imagechat').style.display = 'none';
+      document.getElementById('event-overlay').style.display = 'none';
+      document.getElementById('innerchat').style.display = 'none';
+      document.getElementById('inputContainer').style.display = 'none';
+      var drawingdiv = document.getElementById('drawing-div');
+      drawingdiv.setAttribute('id', "drawing-div-show");
+      while(document.getElementById('drawing-div')){
+        document.getElementById('drawing-div').setAttribute('id', "drawing-div-show");
+      }
+    }
+
+        const canvas = document.getElementById("Canvas");
+        const ctx = canvas.getContext("2d");
+        var drawing = false;
+        var previousX = 0;
+        var previousY = 0;
+
+        canvas.addEventListener("mousedown", function (e){
+                drawing = true;
+                //these are to stop the line from snapping to the new point, and drawing a conencting lie as it does
+                previousX = e.offsetX;
+                previousY = e.offsetY;
+        });
+
+        canvas.addEventListener("mousemove", function (e){
+            //only draws if user is currently drawing
+            if(drawing){
+                    freehand(e.offsetX, e.offsetY);
+                    previousX = e.offsetX;
+                    previousY = e.offsetY;
+            }
+        });
+
+        canvas.addEventListener("mouseup", function(e){
+            //stops drawing when user releases mouse hold
+                drawing = false;
+        });
+
+        function freehand(x, y){
+            ctx.beginPath();
+            ctx.moveTo(previousX,previousY);
+            ctx.lineTo(x,y);
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+            ctx.closePath();
+        }
   </script>
 </body>
 </html>
