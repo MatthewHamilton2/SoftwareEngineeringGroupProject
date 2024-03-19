@@ -687,3 +687,85 @@ h13{
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+#statisticsPage {
+    display: flex;
+    height: 100%;
+}
+
+.statisticsBoxes {
+    width: 60vw;
+    background-color: #fff;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.statisticsBoxesFocus{
+    width: 60vw;
+    background-color: #add8e6 ;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.statisticsBoxesInner{
+    width: 60vw;
+    background-color: #fff;
+    border: 1px solid black;
+    display: none;
+}
+
+#statistics-left-column{
+    flex: 0 0 20vw;
+    background-color:white;
+    padding: 10px;
+    font-size: large;
+    /* background-color:#D8D8D8; */
+}
+
+.unfocusedGroup{
+    padding: 10px;
+}
+
+.focusedGroup{
+    padding: 10px;
+    background-color: #add8e6;
+}
+
+.statisticsHeader{
+    background-color: #0090ff;
+    padding: 10px;
+    color: white;
+    text-align:center
+}
+
+.statisticsHeaderEdu{
+    background-color: #0090ff;
+    padding: 10px;
+    color: white;
+    text-align:center
+}
+
+.statisticsHeaderEdu:hover{
+    background-color: #0069b3;
+    cursor: pointer;
+}
+
+.statistics-left-header{
+    background-color: #0090ff;
+    color: white;
+    padding: 10px;
+}
+
+.statistics-middle-header{
+    background-color: #0090ff;
+    color: white;
+    padding: 30px;
+}
+
+.hidden{
+    display: none;
+}
+
+html{
+    scroll-behavior: smooth;
+}

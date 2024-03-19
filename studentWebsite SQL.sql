@@ -137,3 +137,13 @@ CREATE TABLE events2users (
     CONSTRAINT fk_events2users_username FOREIGN KEY (username) REFERENCES users(username),
     PRIMARY KEY (eventid, username)
 ) ENGINE = InnoDB;
+
+CREATE TABLE imagesent (
+    groupid INT(10) NOT NULL,
+    imagemessagesid INT(16) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    timeSent DATETIME NOT NULL,
+    sender VARCHAR(64) NOT NULL,
+    imagedata BLOB NOT NULL,
+    CONSTRAINT fk_imagesent_groupid FOREIGN KEY (groupid) REFERENCES chatgroup(groupid),
+    CONSTRAINT fk_imagesent_sender FOREIGN KEY (sender) REFERENCES users(username)
+) ENGINE = InnoDB;

@@ -629,3 +629,22 @@ h13{
     margin-bottom: 10px;
     margin-left: 5px;
 }
+
+#drawing-div{
+    display: none;
+    position: relative;
+    height: 85vh;
+    width: 72.75vw;
+}
+
+#drawing-div-show{
+    display: block;
+    position: relative;
+    height: 85vh;
+    width: 72.75vw;
+}
+
+.chatmessage img{
+    max-height: 200px;
+    max-width: 200px;
+}
