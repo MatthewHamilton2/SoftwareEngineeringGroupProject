@@ -233,8 +233,8 @@
       <div class="popup" id="popupForm2" style="display: none;">
 		    <h15 style="margin-bottom: 10px; font-size: 20px; padding: 15px ">Create student group</h15>
        
-        <input type='text' name='groupName' placeholder='Group Name' style="font-size: 15px; padding: 5px; margin-top: 10px">
         <form method="post" id="groupform" action="createGroupEducator.php" style="font-size: 18px; padding: 10px;">
+        <input type='text' name='groupName' placeholder='Group Name' style="font-size: 15px; padding: 5px; margin-top: 10px"><br>
 		    <?php
 			    $sql = "SELECT user FROM educatorgroups2users WHERE groupid = ".$groupid;
 			    $result = mysqli_query($conn, $sql);
