@@ -40,7 +40,7 @@ h2 {
     z-index: 1;
     top: 0;
     right: 0;
-    background-color: #004080;
+    background-color: #0090ff;
     overflow-x: hidden;
     padding-top: 20px;
     transition: 0.5s;
@@ -111,7 +111,27 @@ h4 {
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 15vw;
+    height: 15vh;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.card-link {
+    display: block;
+    text-decoration: none;
+}
+
+
+.cardsurround{
+    all: unset;
+    width:15vw;
+    height:15vh;
+    text-align: center;
+    float: left;
+    margin: 20px;
 }
 
 .container {

@@ -146,6 +146,19 @@ if(!isset($_SESSION['username'])){
         </dialog>
 
 	</div>
+
+    <br>
+    
+    <div class = "cardsurround">
+    <div class="card">
+    <a href="statistics.php" class="card-link">
+        <img src="statistics_image.png" alt="Statistics Image" style="width: 15vw; height: 15vh;">
+        <h2 class="card-title">Statistics</h2>
+    </a>
+    </div>
+    </div>
+
+
 	<script>
 		window.onload = closeNav();
 

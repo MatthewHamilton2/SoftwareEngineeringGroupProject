@@ -27,8 +27,7 @@
 	<div id="nav-bar">
 		<div id="sidenavbar" class="sidenav" style="display:none">
 			<a href="index.php">Home</a>
-			<a href="Profile.html" class="split">My Profile</a>
-			<a href="settings_page/settings.html" class="split">Settings</a>
+			<a href="profilePage.html" class="split">My Profile</a>
 			<a href="logout.php" class="split">Logout</a>
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		</div>
@@ -47,7 +46,7 @@
 	</div>
   <div id="chat">
     
-    <div id="nav-bar-header">
+    <div id="nav-bar-header" style='border: 1px solid black; color: #0090ff'>
     <?php
         $groupid = $_GET['groupid'];
         $sql = "SELECT groupname FROM chatgroup WHERE groupid = '$groupid'";
@@ -58,7 +57,7 @@
     </div>
 
 	
-	<div id ="chatdiv">
+	<div id ="chatdiv" style="overflow-y: scroll;">
 		<div style="display: none" id="event-overlay">
 			<div id="event-content">
 				<a href="javascript:void(0)" class="event-close" onclick="closeEvents()">X</a>
@@ -110,16 +109,17 @@
 			$sql = "SELECT * FROM (SELECT * FROM message WHERE groupid = ".$groupid." ORDER BY timeSent DESC) AS subquery ORDER BY subquery.timeSent ASC";
 			$result = mysqli_query($conn, $sql);
 			echo"<div class = 'chatcontainer'>";
+      $counter = 0;
 			while($row = mysqli_fetch_assoc($result)){
 				$message = $row['messageText'];
 				$sender = $row['user'];
 				echo "
 				<div class='chatmessage'>
 				<p class='messagesender'>$sender"."<br>"."</p>
-				<p>$message"."<br>"."</p>
+				<p style='color: black'>$message"."<br>"."</p>
 				</div>
 				";
-			}
+    }
 			echo"</div>";
 		?>
     </div>
@@ -133,7 +133,7 @@
             echo"
             <div class='chatmessage'>
             <p class='messagesender'>$sender<br></p>
-            <img src='data:image/png;base64," . base64_encode($imagedata) . "' alt='Image'>
+            <img src='data:image/png;base64," . base64_encode($imagedata) . "' alt='Image' style='max-width: 85vw; max-height: 100%;'>
             </div>";
         }
       ?>
@@ -167,7 +167,7 @@
 		$code = mysqli_fetch_assoc($result)['joincode'];
 		echo"
 		<h4> Join Code: </h4>
-		<h3 style= 'margin-left:15px'>
+		<h3 style= 'margin-left:15px; color: black;'>
 		".$code."
 		</h3>";
 	?>
@@ -197,7 +197,7 @@
           while($row = mysqli_fetch_assoc($result)){
             $username = $row['user'];
             echo"
-              <li class='users'>".$username."</li>
+              <li class='users' style='color:black;'>".$username."</li><br>
             ";
           }
         ?>
@@ -205,19 +205,40 @@
     </div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <?php
-  $groupid = $_GET['groupid'];
-  echo"
   <script>
-    $(document).ready(function(){
-      setInterval(function(){
-        $('#innerchat').load('studentGroups.php?groupid=".$groupid." #chatdiv');
-      }, 3000);
-    });
-  </script>
-  "
-  ?>
+  $(document).ready(function(){
+    var lastTimestamp = 0;
+    function fetchNewMessages() {
+        $.ajax({
+            url: 'fetch_message_student.php',
+            type: 'GET',
+            data: { lastTimestamp: lastTimestamp },
+            dataType: 'json',
+            success: function(response) {
+                if (response.length > 0) {
+                    lastTimestamp = response[response.length - 1].timeSent;
+
+                    response.forEach(function(message) {
+                        var $chatMessage = $('<div class="chatmessage"></div>');
+                        $chatMessage.append('<p class="messagesender">' + message.user + '<br></p>');
+                        $chatMessage.append('<p style="color: black">' + message.messageText + '<br></p>');
+                        $('#chatdiv .chatcontainer').append($chatMessage);
+                    });
+
+                    $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching new messages:', error);
+            }
+        });
+    }
+    setInterval(fetchNewMessages, 300);
+});
+</script>
+
   <script>
+
     function goto(destination){
         location.href = destination;
     }
@@ -273,6 +294,11 @@
         while(document.getElementById('drawing-div-show')){
         document.getElementById('drawing-div-show').setAttribute('id', "drawing-div");
       }
+      while(document.getElementById('imagechat').style.display !== "block"){
+        document.getElementById('imagechat').style.display = "block"
+        document.getElementById('imagechat').scrollTop = document.getElementById('imagechat').scrollHeight;
+      }
+
     }
 
     function startdraw(){

@@ -59,20 +59,11 @@
 <body id="studentGroupBody">
   <div id="nav-bar" style="width: 150px">
     <button class="backButton" onclick="goto('index.php')">&larr; Home</button>
-    <div id="nav-bar-header">
-    <?php
-        $groupid = $_GET['groupid'];
-        $sql = "SELECT groupname FROM educatorgroup WHERE groupid = '$groupid'";
-        $result = mysqli_query($conn, $sql);
-        $groupname = mysqli_fetch_assoc($result)['groupname'];
-        echo "<h3 style='text-align:center; font-size: 20px; display: hide;'>".$groupname."</h3>";
-      ?>
-     
-    </div>
 
     <div id="channels" style="background: white;">
       <h4 style='margin-bottom: 5px'>Discussions</h4>
       <?php
+          $groupid = $_GET['groupid'];
           $sql = "SELECT discussionName FROM discussions where groupid = '$groupid'";
           $result = mysqli_query($conn, $sql);
           while($row = mysqli_fetch_assoc($result)){
@@ -84,14 +75,16 @@
           }
       ?>
 
-      <div id="groupheader" class="groupdisplay">
-				<button style="font-size:18px; background-color: lightgrey; width: 100%; margin-left: 0; padding:5px; margin-bottom: 0px">
-          <b href="javascript:void(0)" class="addgroup" onclick="appearModal('modalDiscussion')" style='cursor:pointer; color:black;'>Create Discussion</b>
+      <div id="groupheader" class="groupdisplay" >
+				<button style="font-size:18px; width: 100%; margin-left: 0; padding:5px; margin-bottom: 0px; background-color: #48a1f8; color: white;" >
+          <b href="javascript:void(0)" class="addgroup" onclick="appearModal('modalDiscussion')" style='cursor:pointer; color:white;'>Create Discussion</b>
 				</button>
 			</div>
       
     </div>
     
+    <button type="button" onclick="showannouncement()" style="font-size: 20px; width:100%; margin-left: 0; margin-bottom: 0px"> View Announcements </button>
+    <button type="button" onclick="appearModal('modalAnnouncement')" style="font-size: 20px; width:100%; margin-left: 0; margin-bottom: 0px"> Make New Announcement </button>
 
 
     <div class="dropdown">
@@ -129,23 +122,24 @@
       ?>
     </div>
 
+    <div id = "outerchat">
     <div id ="chatdiv">
       <?php
       $groupid = $_GET['groupid'];
       $channel = $_GET['channel'];
-        $sql = "SELECT * FROM (SELECT * FROM discussionmessage WHERE (groupid = ".$groupid." AND discussionName = '".$channel."') ORDER BY timeSent DESC LIMIT 10) AS subquery ORDER BY subquery.timeSent ASC";
+        $sql = "SELECT * FROM (SELECT * FROM discussionmessage WHERE (groupid = ".$groupid." AND discussionName = '".$channel."') ORDER BY timeSent DESC) AS subquery ORDER BY subquery.timeSent ASC";
         $result = mysqli_query($conn, $sql);
         echo"<div class = 'chatcontainer'>";
         while($row = mysqli_fetch_assoc($result)){
-            $message = $row['messageText'];
-            $sender = $row['user'];
-            echo "
-            <div class='chatmessage'>
-            <p class='messagesender'>$sender"."<br>"."</p>
-            <p>$message"."<br>"."</p>
-            </div>
-            ";
-        }
+          $message = $row['messageText'];
+          $sender = $row['user'];
+          echo "
+          <div class='chatmessage'>
+          <p class='messagesender'>$sender"."<br>"."</p>
+          <p style='color: black'>$message"."<br>"."</p>
+          </div>
+          ";
+      }
         echo"</div>";
       ?>
     </div>
@@ -154,6 +148,25 @@
         <input type='text' id='messageInput' placeholder='Type your message...' name = 'message'>
       </form>
     </div>
+  </div>
+
+  <div id="annbody" class="announcements" style="display: none">
+				<?php
+				$groupid = $_GET['groupid'];
+				$sql = "SELECT announcementtext, sender, timesent FROM announcements WHERE groupid = '$groupid' ORDER BY timesent DESC";
+				$result = mysqli_query($conn, $sql);
+				while ($row = mysqli_fetch_assoc($result)) {
+					$text = $row['announcementtext'];
+					$sender = $row['sender'];
+					$time = $row['timesent'];
+					echo "
+					<div class='announcement'>
+					<p style='color: black;'> <strong> $sender </strong>  <br> <br>  $text <br> <br> $time </p>
+					</div>
+					";
+				}
+				?>
+			</div>
   </div>
   
   
@@ -177,37 +190,27 @@
       <h3 style= "margin-left: 28%; font-size: 20px;">Educators</h3>
     </div>
     <div id="members-list">
+      <br>
       <ul>
-
+        <?php
+            $sql = "SELECT user FROM educatorgroups2users WHERE groupid='$groupid'";
+            $result = mysqli_query($conn, $sql);
+            while($row = mysqli_fetch_assoc($result)){
+              $username = $row['user'];
+              echo"
+                <li class='users' style='color:black;'>".$username."</li><br>
+              ";
+            }     
+        ?>
       </ul>
     </div>
 
-    <button type="button" onclick="appearModal('modalAnnouncement')" style="font-size: 20px; width:100%; margin-left: 0; margin-bottom: 0px"> Make New Announcement </button>
 
 					
 	
 					
-		<h3 style='text-align:center; color:black; background-color: white; padding: 10px; margin-top: 0px; text-decoration: none;'>Recent announcements</h3>
 				
 				
-			<div id="annbody" class="announcements" style="display: none; background-color: white">
-				<?php
-				$groupid = $_GET['groupid'];
-				$sql = "SELECT announcementtext, sender, timesent FROM announcements WHERE groupid = '$groupid' ORDER BY timesent DESC LIMIT 3";
-				$result = mysqli_query($conn, $sql);
-				while ($row = mysqli_fetch_assoc($result)) {
-					$text = $row['announcementtext'];
-					$displayedtext = substr($text, 0, 150) . "...";
-					$sender = $row['sender'];
-					$time = $row['timesent'];
-					echo "
-					<div class='announcement'>
-					<p>" . $sender . "<br>" . $displayedtext . "<br>" . $time . "</p>
-					</div>
-					";
-				}
-				?>
-			</div>
 		</section>
 
     
@@ -217,17 +220,50 @@
   <?php
   $channel = $_GET['channel'];
   $webname = "EducatorGroups.php?groupid=" . $groupid . "&channel=" . $channel . "";
-  echo"
-  <script>
-    $(document).ready(function(){
-      setInterval(function(){
-        $('#chatdiv').load('".$webname." #chatdiv');
-      }, 3000);
-    });
-  </script>
-  "
   ?>
 
+<script>
+$(document).ready(function(){
+    var lastTimestamp = 0;
+    var discussion = "<?php echo $_GET['channel'];?>";
+    var groupid = <?php echo $_GET['groupid'];?>;
+
+    function fetchNewMessages() {
+        $.ajax({
+            url: 'fetch_messages.php',
+            type: 'GET',
+            data: {
+                lastTimestamp: lastTimestamp,
+                discussion: discussion,
+                groupid: groupid
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.length > 0) {
+                    lastTimestamp = response[response.length - 1].timeSent;
+
+                    response.forEach(function(message) {
+                        var $chatMessage = $('<div class="chatmessage"></div>');
+                        $chatMessage.append('<p class="messagesender">' + message.user + '<br></p>');
+                        $chatMessage.append('<p style="color: black">' + message.messageText + '<br></p>');
+                        $('#chatdiv .chatcontainer').append($chatMessage);
+                    });
+
+                    $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching new messages:', error);
+            }
+        });
+    }
+
+    setInterval(fetchNewMessages, 300);
+});
+
+
+
+</script>
 
 
       <div class="popup" id="popupForm2" style="display: none;">
@@ -303,7 +339,10 @@
   
 <script>
 
-
+          function showannouncement(){
+            document.getElementById("outerchat").style.display = "none";
+            document.getElementById("annbody").style.display = "block";
+          }
 
 
   function toggleDropdown() {
@@ -486,27 +525,7 @@ $(document).ready(function(){
 
 
   <section>
-			<div id="annheader" class="announcements">
 			
-			</div>
-			<div id="annbody" class="announcements" style="display: none">
-				<?php
-				$groupid = $_GET['groupid'];
-				$sql = "SELECT announcementtext, sender, timesent FROM announcements WHERE groupid = '$groupid' ORDER BY timesent DESC LIMIT 3";
-				$result = mysqli_query($conn, $sql);
-				while ($row = mysqli_fetch_assoc($result)) {
-					$text = $row['announcementtext'];
-					$displayedtext = substr($text, 0, 150) . "...";
-					$sender = $row['sender'];
-					$time = $row['timesent'];
-					echo "
-					<div class='announcement'>
-					<p>" . $sender . "<br>" . $displayedtext . "<br>" . $time . "</p>
-					</div>
-					";
-				}
-				?>
-			</div>
 		</section>
 
 </html>

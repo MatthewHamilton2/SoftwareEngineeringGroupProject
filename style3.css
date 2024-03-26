@@ -232,7 +232,7 @@ body {
 
 #nav-bar {
     width: 250px;
-    background-color: #36393f;
+    background-color: #D3D3D3;
     color: #36393f;
     padding: 20px;
 }
@@ -244,15 +244,14 @@ body {
 #chat {
     flex: 1;
     /*padding: 0px;*/
-    overflow-y: scroll;
-    background-color: #2f3136;
+    background-color: white;
     color: #fff;
 }
 
 #members-bar {
     width: 15%;
     /*padding: 0px;*/
-    background-color: #2f3136;
+    background-color: #D3D3D3;
     color: #fff;
 }
 
@@ -337,6 +336,7 @@ body {
     bottom: 0;
     position: absolute;
     display: inline-block;
+    height: 100%;
 }
 
 .chatmessage{
@@ -362,6 +362,7 @@ body {
 #chatdiv{
     height: 75vh;
     position: relative;
+    overflow-y: scroll;
 }
 
 .backButton{
@@ -410,8 +411,8 @@ button{
 
 .announcement{
     display: inline-block;
-    width: 50vw;
-    height: 5%;
+    width: 100%;
+    height: auto;
     border-top: 1px solid black;
     word-wrap: break-word;
 }
@@ -480,12 +481,13 @@ header {
 
 #annbody{
 	width: 100%;
-	height: 250px;
+	height: 90%;
 	border-top-style: solid;
 	border-bottom-style: solid;
 	border-color: black;
 	border-width: 2px;
 	margin-bottom:10px;
+    overflow-y: scroll
 }
 
 #groupdisplaybar .addgroup {
