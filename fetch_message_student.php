@@ -1,8 +1,10 @@
 <?php
 include("connect.php");
     $lastTimestamp = $_GET['lastTimestamp'];
+	$groupid = $_GET['groupid'];
+	
 
-    $sql = "SELECT * FROM message WHERE timeSent > '$lastTimestamp' ORDER BY timeSent ASC";
+    $sql = "SELECT * FROM message WHERE timeSent > '$lastTimestamp' AND groupid = '$groupid' ORDER BY timeSent ASC";
     $result = mysqli_query($conn, $sql);
     $newMessages = array();
 

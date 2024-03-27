@@ -103,25 +103,7 @@
 			
 			<button id="create-event-button" onclick="openForm()" style="display: block; margin-top: 40px; font-size: 20px; padding: 20px; font-weight: bold; margin:auto;">Create Event</button>
 		</div>
-    <div id = "innerchat">
-		<?php
-			$groupid = $_GET['groupid'];
-			$sql = "SELECT * FROM (SELECT * FROM message WHERE groupid = ".$groupid." ORDER BY timeSent DESC) AS subquery ORDER BY subquery.timeSent ASC";
-			$result = mysqli_query($conn, $sql);
-			echo"<div class = 'chatcontainer'>";
-      $counter = 0;
-			while($row = mysqli_fetch_assoc($result)){
-				$message = $row['messageText'];
-				$sender = $row['user'];
-				echo "
-				<div class='chatmessage'>
-				<p class='messagesender'>$sender"."<br>"."</p>
-				<p style='color: black'>$message"."<br>"."</p>
-				</div>
-				";
-    }
-			echo"</div>";
-		?>
+    <div id = "innerchat"><div class = 'chatcontainer'></div>
     </div>
     <div style="display: none" id = "imagechat">
       <?php
@@ -208,11 +190,13 @@
   <script>
   $(document).ready(function(){
     var lastTimestamp = 0;
+	  var groupid = <?php echo $_GET['groupid'];?>;
     function fetchNewMessages() {
         $.ajax({
             url: 'fetch_message_student.php',
             type: 'GET',
-            data: { lastTimestamp: lastTimestamp },
+            data: { lastTimestamp: lastTimestamp,
+					          groupid: groupid},
             dataType: 'json',
             success: function(response) {
                 if (response.length > 0) {

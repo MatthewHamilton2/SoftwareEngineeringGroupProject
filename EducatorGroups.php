@@ -124,24 +124,10 @@
 
     <div id = "outerchat">
     <div id ="chatdiv">
-      <?php
-      $groupid = $_GET['groupid'];
-      $channel = $_GET['channel'];
-        $sql = "SELECT * FROM (SELECT * FROM discussionmessage WHERE (groupid = ".$groupid." AND discussionName = '".$channel."') ORDER BY timeSent DESC) AS subquery ORDER BY subquery.timeSent ASC";
-        $result = mysqli_query($conn, $sql);
-        echo"<div class = 'chatcontainer'>";
-        while($row = mysqli_fetch_assoc($result)){
-          $message = $row['messageText'];
-          $sender = $row['user'];
-          echo "
-          <div class='chatmessage'>
-          <p class='messagesender'>$sender"."<br>"."</p>
-          <p style='color: black'>$message"."<br>"."</p>
-          </div>
-          ";
-      }
-        echo"</div>";
-      ?>
+
+    <div class = 'chatcontainer'>
+
+    </div>
     </div>
     <div id="inputContainer">
       <form id='chatform' method='post'>
