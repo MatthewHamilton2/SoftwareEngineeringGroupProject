@@ -9,7 +9,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>student-group-page</title>
+  <title>Educator Group</title>
   <link rel="stylesheet" href="style3.css">
   <style>
 
@@ -137,24 +137,8 @@
   </div>
 
   <div id="annbody" class="announcements" style="display: none">
-				<?php
-				$groupid = $_GET['groupid'];
-				$sql = "SELECT announcementtext, sender, timesent FROM announcements WHERE groupid = '$groupid' ORDER BY timesent DESC";
-				$result = mysqli_query($conn, $sql);
-				while ($row = mysqli_fetch_assoc($result)) {
-					$text = $row['announcementtext'];
-					$sender = $row['sender'];
-					$time = $row['timesent'];
-					echo "
-					<div class='announcement'>
-					<p style='color: black;'> <strong> $sender </strong>  <br> <br>  $text <br> <br> $time </p>
-					</div>
-					";
-				}
-				?>
-			</div>
   </div>
-  
+  </div>
   
   
   <div id="members-bar">
@@ -243,11 +227,40 @@ $(document).ready(function(){
             }
         });
     }
+	
+	function fetchNewAnnoucements() {
+        $.ajax({
+            url: 'fetch_announcements.php',
+            type: 'GET',
+            data: {
+                lastTimestamp: lastTimestamp,
+                discussion: discussion,
+                groupid: groupid
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.length > 0) {
+                    lastTimestamp = response[response.length - 1].timeSent;
+
+                    response.forEach(function(message) {
+                        var $announcement = $('<div class="announcement"></div>');
+                        $announcement.append('<p style="color: black;"> <strong>' + message.sender + '</strong>  <br> <br>' +  message.announcementtext + '<br> <br>' + message.timesent + '</p>');
+                        $('#annbody').prepend($announcement);
+                    });
+
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching new announcements:', error);
+            }
+        });
+    }
+	
+	
 
     setInterval(fetchNewMessages, 300);
+	setInterval(fetchNewAnnoucements, 1000);
 });
-
-
 
 </script>
 
@@ -431,11 +444,13 @@ $(document).ready(function(){
 	})
 
   $(document).ready(function(){
-    $("#chatform").submit(function(){
+    $("#chatform").submit(function(e){
+		e.preventDefault();
         var message = $("input[name='message']").val();
         var groupid = <?php echo json_encode($groupid); ?>;
         var channel = <?php echo json_encode($channel); ?>;
         var username = <?php echo json_encode($username); ?>;
+		$("#messageInput").val('');
         $.ajax({
             type: "POST",
             url: "sendDiscussionMessage.php",
@@ -467,11 +482,13 @@ $(document).ready(function(){
                 console.log(response);
             }
         })
+		window.location.reload();
     })
 })
 
 $(document).ready(function(){
-    $("#createAnnouncement").submit(function(){
+    $("#createAnnouncement").submit(function(e){
+		e.preventDefault();
         var announcementText = $("input[name='announcementText']").val();
         var groupid = <?php echo json_encode($groupid); ?>;
         var username = <?php echo json_encode($username); ?>;
@@ -485,6 +502,7 @@ $(document).ready(function(){
             },
             success: function(response) {
                 console.log(response);
+				disappearModal('modalAnnouncement');		
             }
         })
     })

@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>student-group-page</title>
+  <title>Student Group</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .popup {

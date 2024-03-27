@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html>
+<head>
+<title>
+<link rel="stylesheet" href="styling.css">
+</title>
+</head>
+<style>
+button:hover {
+	cursor: pointer;
+}
+</style>
     <body>
     <canvas id="Canvas" height="100vh" width="100vw" style="border: 1px solid black;"></canvas>
     <br>
-    <button onclick="changecolor('black')" style="background-color: black; color: black;">COLOUR</button>
-    <button onclick="changecolor('red')" style="background-color: red; color: red;">COLOUR</button>
-    <button onclick="changecolor('blue')" style="background-color: blue; color: blue;">COLOUR</button>
-    <button onclick="changecolor('green')" style="background-color: green; color: green;">COLOUR</button>
-    <button onclick="changecolor('#FFD700')" style="background-color: #FFD700; color: #FFD700;">COLOUR</button>
-    <button onclick="changecolor('#FFA500')" style="background-color: #FFA500; color: #FFA500;">COLOUR</button>
-    <button onclick="changecolor('purple')" style="background-color: purple; color: purple;">COLOUR</button>
-    <button onclick="changecolor('pink')" style="background-color: pink; color: pink;">COLOUR</button>
+    <button onclick="changecolor('black')" style="background-color: black; color: black; padding: 20px;">COLOUR</button>
+    <button onclick="changecolor('red')" style="background-color: red; color: red; padding: 20px;">COLOUR</button>
+    <button onclick="changecolor('blue')" style="background-color: blue; color: blue; padding: 20px;">COLOUR</button>
+    <button onclick="changecolor('green')" style="background-color: green; color: green; padding: 20px;">COLOUR</button>
+    <button onclick="changecolor('#FFD700')" style="background-color: #FFD700; color: #FFD700; padding: 20px;">COLOUR</button>
+    <button onclick="changecolor('#FFA500')" style="background-color: #FFA500; color: #FFA500; padding: 20px;">COLOUR</button>
+    <button onclick="changecolor('purple')" style="background-color: purple; color: purple; padding: 20px;">COLOUR</button>
+    <button onclick="changecolor('pink')" style="background-color: pink; color: pink; padding: 20px;">COLOUR</button>
     <br>
-    <button onclick="selectTool('draw')">Draw</button>
-    <button onclick="selectTool('erase')">Erase</button>
-    <br>
-    <button id="sendimage">Send Image</button>
+    <button onclick="selectTool('draw')" style = "border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 20px;
+	background-color: #0090ff;
+    color: white;
+    text-align: center;
+    cursor: pointer;">Draw</button>
+    <button onclick="selectTool('erase')" style = "border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 20px;
+	background-color: #0090ff;
+    color: white;
+    text-align: center;
+    cursor: pointer;">Erase</button>
+	
+    <button id="sendimage" style = "border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 20px;
+	background-color: #0090ff;
+    color: white;
+    text-align: center;
+    cursor: pointer;">Send Image</button>
     <script>
         const canvas = document.getElementById("Canvas");
         const ctx = canvas.getContext("2d");
