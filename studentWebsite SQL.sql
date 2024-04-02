@@ -80,14 +80,8 @@ CREATE TABLE announcements (
 
 CREATE TABLE userimage (
     username VARCHAR(64) NOT NULL PRIMARY KEY,
-    groupimage LONGBLOB NOT NULL,
+    profileimage LONGBLOB NOT NULL,
     CONSTRAINT fk_userimage FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
-) ENGINE = InnoDB;
-
-CREATE TABLE groupimage (
-    groupid INT(10) NOT NULL PRIMARY KEY,
-    groupimage LONGBLOB NOT NULL,
-    CONSTRAINT fk_groupimage FOREIGN KEY (groupid) REFERENCES chatgroup(groupid) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE educatorgroupimage (

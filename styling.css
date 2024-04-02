@@ -74,9 +74,6 @@ h2 {
     float: bottom;
 }
 
-.profile-picture {
-    cursor: pointer;
-}
 
 h4 {
     color: #fff;
@@ -481,12 +478,6 @@ header {
 	cursor:pointer
 }
 
-.profile img {
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-}
-
 .logo {
 	display: flex; /* Nested flexbox for logo */
 	align-items: center; /* Center items vertically */
@@ -603,7 +594,6 @@ header {
 .profile img {
 	width: 100px;
 	height: 100px;
-	border-radius: 50%;
 }
 
 .form {
@@ -702,10 +692,8 @@ h13{
 .profileContainer {
     margin: 0;
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
 }
 
 #statisticsPage {
@@ -788,4 +776,10 @@ h13{
 
 html{
     scroll-behavior: smooth;
+}
+
+#profilename{
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }

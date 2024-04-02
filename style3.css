@@ -345,6 +345,7 @@ body {
     width: 68vw;
     padding-right: 4vw;
     word-wrap: break-word;
+    position: relative;
 }
 
 .messagesender{
@@ -639,4 +640,19 @@ h13{
     margin-bottom: 10px;
     margin-left: 20px;
     font-size: 12px;
+}
+
+.deleteButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: none;
+    width:100px;
+    height:20px;
+    font-size: 14px;
 }

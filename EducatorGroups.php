@@ -88,15 +88,65 @@
 
 
     <div class="dropdown">
-  <button onclick="toggleDropdown()" class="dropbtn">Create options</button>
-  <div id="myDropdown" class="dropdown-content">
+  <?php
+    $sql = "SELECT * FROM educatorgroup WHERE groupid = '$groupid'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    if($_SESSION['username'] == $row['creatorname']){
+      echo"
+
+      <button onclick=\"toggleDropdown('myDropdown')\" class=\"dropbtn\">Members Options</button>
+
+      <div id=\"myDropdown\" class=\"dropdown-content\">
    
           
-    <button onclick="openForm('popupForm2')" style='font-size: 15px'>Create Student Group</button>
-    <button onclick="openForm('popupForm1')" style='font-size: 15px; width: 93%;'>Add Student</button>
-    <button onclick="openForm('popupForm')" style='font-size: 15px'>Create Student Account</button>
+      <button onclick=\"openForm('popupForm1')\" style='font-size: 15px; width: 93%;'>Add Student</button>
+      <button onclick=\"openForm('popupFormRemove')\" style='font-size: 15px; width: 93%;'>Remove Student</button>
 
-  </div>
+
+      </div>
+      ";
+    }
+  ?>
+
+  <?php
+  $sql = "SELECT * FROM users WHERE username = '$username'";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_assoc($result);
+    if($row['type'] == "educator"){
+          echo"
+      <button onclick=\"toggleDropdown('createDropdown')\" class =\"dropbtn\">Create Options</button>
+
+      <div id=\"createDropdown\" class=\"dropdown-content\">
+      
+              
+      <button onclick=\"openForm('popupForm2')\" style='font-size: 15px'>Create Student Group</button>
+      <button onclick=\"openForm('popupForm')\" style='font-size: 15px'>Create Student Account</button>
+
+    </div>
+    ";
+    }
+ ?>
+
+<?php
+  $sql = "SELECT * FROM educatorgroup WHERE groupid = '$groupid'";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_assoc($result);
+    if($_SESSION['username'] == $row['creatorname']){
+          echo"
+ <button onclick=\"toggleDropdown('settings')\" class =\"dropbtn\">Settings</button>
+
+ <div id=\"settings\" class=\"dropdown-content\">
+   
+          
+   <button onclick=\"openForm('deletegroup')\" style='font-size: 24px'>Delete Group</button>
+   <button onclick=\"goto('statistics.php')\">Statistics</button>
+
+ </div>
+ ";
+    }
+ ?>
+
 </div>
 
 
@@ -157,7 +207,7 @@
 
 
     <div id="members" style="background: #48a1f8; width: 100%; margin-left: 0; color: white;">
-      <h3 style= "margin-left: 28%; font-size: 20px;">Educators</h3>
+      <h3 style= "margin-left: 28%; font-size: 20px;">Members</h3>
     </div>
     <div id="members-list">
       <br>
@@ -166,9 +216,9 @@
             $sql = "SELECT user FROM educatorgroups2users WHERE groupid='$groupid'";
             $result = mysqli_query($conn, $sql);
             while($row = mysqli_fetch_assoc($result)){
-              $username = $row['user'];
+              $name = $row['user'];
               echo"
-                <li class='users' style='color:black;'>".$username."</li><br>
+                <li class='users' style='color:black;'>".$name."</li><br>
               ";
             }     
         ?>
@@ -216,6 +266,7 @@ $(document).ready(function(){
                         var $chatMessage = $('<div class="chatmessage"></div>');
                         $chatMessage.append('<p class="messagesender">' + message.user + '<br></p>');
                         $chatMessage.append('<p style="color: black">' + message.messageText + '<br></p>');
+                        $chatMessage.append('<button class="deleteButton" style="display: none;" onclick="deleteMessage(' + message.messageid + ')">Delete</button>');
                         $('#chatdiv .chatcontainer').append($chatMessage);
                     });
 
@@ -262,6 +313,24 @@ $(document).ready(function(){
 	setInterval(fetchNewAnnoucements, 1000);
 });
 
+function deleteMessage(messageid){
+      $.ajax({
+        url:'deleteMessage.php',
+        type: 'POST',
+        data:{
+          messageid: messageid
+        }
+      })
+    }
+
+$(document).ready(function(){
+    $(document).on('mouseenter', '.chatmessage', function() {
+        $(this).find('.deleteButton').show();
+    }).on('mouseleave', '.chatmessage', function() {
+        $(this).find('.deleteButton').hide();
+    });
+});
+
 </script>
 
 
@@ -295,10 +364,29 @@ $(document).ready(function(){
 					
 						<div class="popup" id="popupForm1" style="display: none;">
 							<form method="post"  id="adduser">
- 							<h15 style="margin-bottom: 10px; font-size: 20px; padding: 5px ">Enter student username</h1>
+ 							<h1 style="margin-bottom: 10px; font-size: 20px; padding: 5px ">Enter student username to add</h1>
 							<input type="text" name = "studentusername" placeholder="Username">
 							</form>
 						<button onclick="closeForm('popupForm1')" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
+					</div>
+
+          <div class="popup" id="popupFormRemove" style="display: none;">
+							<form method="post"  id="removeuser">
+ 							<h1 style="margin-bottom: 10px; font-size: 20px; padding: 5px ">Enter student username to delete</h1>
+              <p>Note that deleting this user will also delete all of their messages</p>
+							<input type="text" name = "studentname" placeholder="Username">
+							</form>
+						<button onclick="closeForm('popupFormRemove')" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
+					</div>
+
+          <div class="popup" id="deletegroup" style="display: none;">
+							<form method="post"  id="deleteedugroup">
+ 							<h1 style="margin-bottom: 10px; font-size: 20px; padding: 5px ">Delete group</h1>
+              <p>Are you sure you want to delete this group? All messages and announcements will be deleted.</p>
+              <p>Please enter your password to confirm deletion of this group</p>
+							<input type="text" name = "creatorpassword" placeholder="Username">
+							</form>
+						<button onclick="closeForm('deletegroup')" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
 					</div>
 
       
@@ -344,8 +432,8 @@ $(document).ready(function(){
           }
 
 
-  function toggleDropdown() {
-    var dropdown = document.getElementById("myDropdown");
+  function toggleDropdown(drop) {
+    var dropdown = document.getElementById(drop);
     dropdown.classList.toggle("show");
   }
 
@@ -402,6 +490,51 @@ $(document).ready(function(){
 		})
 	})
 
+  $(document).ready(function(){
+		$("#removeuser").submit(function(){
+			var user = $("input[name='studentname']").val();
+			$.ajax({
+				type: "POST",
+				url: "removeFromEducatorGroup.php",
+				data: 
+				{	
+					groupid: "<?php echo $groupid;?>",
+					username: user
+				},
+				success: function(response) {
+					console.log(response);
+				}
+			})
+		})
+    
+	})
+
+  $(document).ready(function(){
+    $("#deleteedugroup").submit(function(event){
+        event.preventDefault(); // Prevent default form submission
+        var password = $("input[name='creatorpassword']").val();
+        var groupid = "<?php echo $groupid;?>";
+        $.ajax({
+            type: "POST",
+            url: "deletegroup.php",
+            data: {	
+                groupid: groupid,
+                password: password
+            },
+            dataType: 'json',
+            success: function(response) {
+                if(response.success){
+                    console.log("Successful deletion of group");
+                    location.href = "index.php";
+                } else {
+                    alert("Incorrect Password");
+                }
+            }
+        });
+    });
+});
+
+
 	//function for creating a student group from the educator page; doesnt work for now but ill try and make it work later; fucntionality is still there but it doesnt use this function
 	/*
 	$(document).ready(function(){
@@ -445,16 +578,16 @@ $(document).ready(function(){
 
   $(document).ready(function(){
     $("#chatform").submit(function(e){
-		e.preventDefault();
+        e.preventDefault();
         var message = $("input[name='message']").val();
         var groupid = <?php echo json_encode($groupid); ?>;
         var channel = <?php echo json_encode($channel); ?>;
         var username = <?php echo json_encode($username); ?>;
-		$("#messageInput").val('');
+        $("#messageInput").val('');
         $.ajax({
             type: "POST",
             url: "sendDiscussionMessage.php",
-            data: {	
+            data: { 
                 message: message,
                 groupid: groupid,
                 channel: channel,
@@ -466,6 +599,7 @@ $(document).ready(function(){
         })
     })
 })
+
 
 $(document).ready(function(){
     $("#createDiscussion").submit(function(){

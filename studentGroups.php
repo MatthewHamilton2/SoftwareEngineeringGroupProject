@@ -21,13 +21,54 @@
       padding : 20px;
       z-index: 9999;
     }
+
+    .dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-left: auto;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  width: 100%;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
   </style>
 </head>
 <body id="studentGroupBody">
 	<div id="nav-bar">
 		<div id="sidenavbar" class="sidenav" style="display:none">
 			<a href="index.php">Home</a>
-			<a href="profilePage.html" class="split">My Profile</a>
+			<a href="profilePage.php" class="split">My Profile</a>
 			<a href="logout.php" class="split">Logout</a>
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 		</div>
@@ -42,6 +83,25 @@
     <button id = "chat-button" onclick="openchat()">Chat</button>
     <br>
     <button id = "image-button" onclick="openimage()">Images</button>
+<?php
+$groupid = $_GET['groupid'];
+$sql = "SELECT * FROM chatgroup WHERE groupid = '$groupid'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+  if($_SESSION['username'] == $row['creatorname']){
+echo"
+    <button onclick=\"toggleDropdown('settings')\" class =\"dropbtn\">Settings</button>
+
+ <div id=\"settings\" class=\"dropdown-content\" style=\"width:10%;\">
+   
+          
+   <button onclick=\"openForm('deletegroup')\" style='font-size: 24px'>Delete Group</button><br>
+   <button onclick=\"goto('statistics.php')\">Statistics</button>
+
+ </div>
+ ";
+  } 
+ ?>
 	
 	</div>
   <div id="chat">
@@ -130,7 +190,7 @@
       <?php
       $groupid = $_GET['groupid'];
       echo"
-      <form id='chatform' method='post' action='sendMessage.php?groupid=".$groupid."'>
+      <form id='chatform' method='post'>
         <input type='text' id='messageInput' placeholder='Type your message...' name = 'message'>
       </form>
       ";
@@ -140,7 +200,15 @@
   </div>
   
   
-  
+  <div class="popup" id="deletegroup" style="display: none;">
+							<form method="post"  id="deletestugroup">
+ 							<h1 style="margin-bottom: 10px; font-size: 20px; padding: 5px ">Delete group</h1>
+              <p>Are you sure you want to delete this group? All messages and announcements will be deleted.</p>
+              <p>Please enter your password to confirm deletion of this group</p>
+							<input type="text" name = "creatorpassword" placeholder="Username">
+							</form>
+						<button onclick="closeForm('deletegroup')" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
+					</div>
 
   <div id="members-bar">
     <?php
@@ -164,7 +232,7 @@
       <input type="date" name = "starttime" placeholder="Date" style="width: 98%; margin-bottom: 10px; font-size: 15px;"><br>
       <input type="submit" value="Create Event" style="width: 98%; font-size: 15px;">
     </form>
-    <button onclick="closeForm()" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
+    <button onclick="closeForm('popupform')" style="background: azure;color: black;color: black; font-size: 20px; position: absolute; right: 10px; top: 10px;">Close</button>
   </div>
 
 
@@ -177,9 +245,9 @@
           $sql = "SELECT user FROM groups2users WHERE groupid='$groupid'";
           $result = mysqli_query($conn, $sql);
           while($row = mysqli_fetch_assoc($result)){
-            $username = $row['user'];
+            $name = $row['user'];
             echo"
-              <li class='users' style='color:black;'>".$username."</li><br>
+              <li class='users' style='color:black;'>".$name."</li><br>
             ";
           }
         ?>
@@ -206,33 +274,78 @@
                         var $chatMessage = $('<div class="chatmessage"></div>');
                         $chatMessage.append('<p class="messagesender">' + message.user + '<br></p>');
                         $chatMessage.append('<p style="color: black">' + message.messageText + '<br></p>');
+                        $chatMessage.append('<button class="deleteButton" style="display: none;" onclick="deleteMessage(' + message.messageid + ')">Delete</button>');
                         $('#chatdiv .chatcontainer').append($chatMessage);
                     });
 
                     $('#chatdiv').scrollTop($('#chatdiv')[0].scrollHeight);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching new messages:', error);
             }
         });
     }
     setInterval(fetchNewMessages, 300);
 });
+
+$(document).ready(function(){
+    $("#deletestugroup").submit(function(event){
+        event.preventDefault(); // Prevent default form submission
+        var password = $("input[name='creatorpassword']").val();
+        var groupid = "<?php echo $groupid;?>";
+        $.ajax({
+            type: "POST",
+            url: "deletestugroup.php",
+            data: {	
+                groupid: groupid,
+                password: password
+            },
+            dataType: 'json',
+            success: function(response) {
+                if(response.success){
+                    console.log("Successful deletion of group");
+                    location.href = "index.php";
+                } else {
+                    alert("Incorrect Password");
+                }
+            }
+        });
+    });
+});
+
+function deleteMessage(messageid){
+      $.ajax({
+        url:'deleteMessageStudent.php',
+        type: 'POST',
+        data:{
+          messageid: messageid
+        }
+      })
+    }
 </script>
 
   <script>
+    $(document).ready(function(){
+    $(document).on('mouseenter', '.chatmessage', function() {
+        $(this).find('.deleteButton').show();
+    }).on('mouseleave', '.chatmessage', function() {
+        $(this).find('.deleteButton').hide();
+    });
+});
+
+function toggleDropdown(drop) {
+    var dropdown = document.getElementById(drop);
+    dropdown.classList.toggle("show");
+  }
 
     function goto(destination){
         location.href = destination;
     }
 
-    function openForm(){
-      document.getElementById("popupForm").style.display = "block";
+    function openForm(formId){
+      document.getElementById(formId).style.display = "block";
     }
 
-    function closeForm(){
-      document.getElementById("popupForm").style.display = "none";
+    function closeForm(formId){
+      document.getElementById(formId).style.display = "none";
     }
 	
 	function openEvents() {
@@ -337,6 +450,28 @@
 </html>
 
 <script>
+  $(document).ready(function(){
+    $("#chatform").submit(function(e){
+        e.preventDefault();
+        var message = $("input[name='message']").val();
+        var groupid = <?php echo json_encode($groupid); ?>;
+        var username = <?php echo json_encode($username); ?>;
+        $("#messageInput").val('');
+        $.ajax({
+            type: "POST",
+            url: "sendMessage.php",
+            data: { 
+                message: message,
+                groupid: groupid,
+                username: username
+            },
+            success: function(response) {
+                console.log(response);
+            }
+        })
+    })
+})
+
   $(document).ready(function(){
 		$("#createevent").submit(function(){
 			var eventname = $("input[name='eventname']").val();

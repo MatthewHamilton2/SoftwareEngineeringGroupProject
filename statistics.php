@@ -10,31 +10,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" type = "text/css" href="styling.css">
-    <title>Collab Nexus: Statistics</title>
+    <title>Statistics</title>
 </head>
 <body class="unset">
-<div id="sidenavbar" class="sidenav">
-		<!--  <a href="index.php">Home</a> -->
-		<a href="profilePage.html" class="split">My Profile</a>
-		<!--  <a href="settings_page/settings.php" class="split">Settings</a>  -->
-        <a href="statistics.php">Statistics</a>
-		<a href="logout.php" class="split">Logout</a>
-		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
+<div id="sidenavbar" class="sidenav" style="right:auto; left:0;">
+<a href="index.php">Home</a>
+			<a href="profilePage.php" class="split">My Profile</a>
+			<a href="logout.php" class="split">Logout</a>
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 	</div>
 
-	<header id = "statheader">
-		<!--  <span class="navSpan" onclick = "openNav()">&#9776;</span>  -->
-		<a href="index.php">
-			<div class="logo">
-				<img src="logo.png" alt="Collab Nexus Logo">
-				<h1>Collab Nexus: Home</h1>
-			</div>
-		</a>
-		<div class="profile">
-			<img src="profile.png" alt="Profile Picture" class="profile-picture" onclick = "openNav()">
+<header id = "header">
+    <span class="navSpan" onclick = "openNav()">&#9776;</span>
+    <div class="logo">
+        <img src="placeHolder.PNG" alt="Collab Nexus Logo">
+            <h1>Collab Nexus: Profile Page</h1>
+                </div>
+                <div class="profile">
+        <?php
+                    $user = $_SESSION['username'];
+                    $sql = "SELECT * FROM userimage WHERE username = '$user'";
+                    $result = mysqli_query($conn, $sql);
+                
+                    if(mysqli_num_rows($result) > 0){
+                        $row = mysqli_fetch_assoc($result);
+                        $imagedata = $row['groupimage'];
+                        echo"<img src='data:image/png;base64," . base64_encode($imagedata) . "' alt='Image' class='profile-picture' style='border-radius:50%; cursor:pointer;' onclick=\"openNav()\">";
+                    }
+                    else{
+                        echo"<img src=\"profile.png\" alt=\"\" class='profile-picture' onclick=\"openNav()\" style=\"cursor:pointer;\">";
+                    }
+                ?>
 		</div>
-	</header>
+        </header>
 
     <div id = "statisticsPage" >
         <div id = "statistics-left-column" style="margin-right: 50px;">

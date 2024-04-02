@@ -13,12 +13,13 @@ if(!isset($_SESSION['username'])){
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styling.css" />
+    <title>Home</title>
 </head>
 
 <body class="unset">
 	<div id="sidenavbar" class="sidenav">
 		<!--  <a href="index.php">Home</a> -->
-		<a href="profilePage.html" class="split">My Profile</a>
+		<a href="profilePage.php" class="split">My Profile</a>
 		<!--  <a href="settings_page/settings.php" class="split">Settings</a>  -->
         <a href="statistics.php">Statistics</a>
 		<a href="logout.php" class="split">Logout</a>
@@ -35,7 +36,20 @@ if(!isset($_SESSION['username'])){
 			</div>
 		</a>
 		<div class="profile">
-			<img src="profile.png" alt="Profile Picture" class="profile-picture" onclick = "openNav()">
+        <?php
+                    $user = $_SESSION['username'];
+                    $sql = "SELECT * FROM userimage WHERE username = '$user'";
+                    $result = mysqli_query($conn, $sql);
+                
+                    if(mysqli_num_rows($result) > 0){
+                        $row = mysqli_fetch_assoc($result);
+                        $imagedata = $row['groupimage'];
+                        echo"<img src='data:image/png;base64," . base64_encode($imagedata) . "' alt='Image' class='profile-picture' style='border-radius:50%; cursor:pointer;' onclick=\"openNav()\">";
+                    }
+                    else{
+                        echo"<img src=\"profile.png\" alt=\"\" class='profile-picture' onclick=\"openNav()\" style=\"cursor:pointer;\">";
+                    }
+                ?>
 		</div>
 	</header>
 
@@ -129,7 +143,16 @@ if(!isset($_SESSION['username'])){
 
         <dialog id="modaleducatorGroups">
             <button onclick="disappearModal('modaleducatorGroups')">X</button><br>
-            <button id="createStudentGroup" onclick="appearModal('modalCreateEducatorGroups'); disappearModal('modaleducatorGroups')">Create Group</button><br>
+            <?php
+                $sql = "SELECT * FROM users WHERE username = '$username'";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_assoc($result);
+                  if($row['type'] == "educator"){
+                        echo"
+                        <button id=\"createStudentGroup\" onclick=\"appearModal('modalCreateEducatorGroups'); disappearModal('modaleducatorGroups')\">Create Group</button><br>
+                        ";
+                  }
+            ?>
             <button id="joinStudentGroup" onclick="appearModal('modalJoinEducatorGroups'); disappearModal('modaleducatorGroups')">Join Group</button>
         </dialog>
         <dialog id="modalCreateEducatorGroups">
@@ -146,18 +169,6 @@ if(!isset($_SESSION['username'])){
         </dialog>
 
 	</div>
-
-    <br>
-    
-    <div class = "cardsurround">
-    <div class="card">
-    <a href="statistics.php" class="card-link">
-        <img src="statistics_image.png" alt="Statistics Image" style="width: 15vw; height: 15vh;">
-        <h2 class="card-title">Statistics</h2>
-    </a>
-    </div>
-    </div>
-
 
 	<script>
 		window.onload = closeNav();
