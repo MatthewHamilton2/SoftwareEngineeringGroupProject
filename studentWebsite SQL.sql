@@ -142,7 +142,6 @@ CREATE TABLE imagesent (
     CONSTRAINT fk_imagesent_sender FOREIGN KEY (sender) REFERENCES users(username) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
-/*all indexes are written in the form index_(table name)_(column name) */
 CREATE INDEX index_chatgroup_creatorname ON chatgroup(creatorname);
 CREATE INDEX index_educatorgroup_creatorname ON educatorgroup(creatorname);
 CREATE INDEX index_message_timesent ON message(timeSent);
